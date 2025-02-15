@@ -22,7 +22,7 @@ class WeatherUtils {
         return false;
       }
 
-      int zoomLevel = 6;
+      int zoomLevel = 17;
       int tileX = ((longitude + 180.0) / 360.0 * (1 << zoomLevel)).toInt();
       int tileY = ((1 -
                   (log(tan(latitude * (3.141592653589793 / 180.0)) +

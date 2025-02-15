@@ -1,15 +1,20 @@
+// lib/pages/rain_status_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/models/utils/weather_utils.dart';
+import '../widgets/weather_map_widget.dart';
 
 class RainStatusPage extends StatefulWidget {
-  const RainStatusPage({super.key});
+  final double latitude;
+  final double longitude;
+
+  const RainStatusPage({super.key, required this.latitude, required this.longitude});
 
   @override
   _RainStatusPageState createState() => _RainStatusPageState();
 }
 
 class _RainStatusPageState extends State<RainStatusPage> {
-  bool? isRaining;
+  String rainStatus = "Checking...";
 
   @override
   void initState() {
@@ -18,11 +23,9 @@ class _RainStatusPageState extends State<RainStatusPage> {
   }
 
   Future<void> checkRainStatus() async {
-    double lat = 51.517398;
-    double lon = -0.059893;
-    bool raining = await WeatherUtils.isItRaining(lat, lon);
+    bool isRaining = await WeatherUtils.isItRaining(widget.latitude, widget.longitude);
     setState(() {
-      isRaining = raining;
+      rainStatus = isRaining ? "It is raining" : "It is not raining";
     });
   }
 
@@ -33,12 +36,10 @@ class _RainStatusPageState extends State<RainStatusPage> {
         title: Text('Rain Status'),
       ),
       body: Center(
-        child: isRaining == null
-            ? CircularProgressIndicator()
-            : Text(
-                isRaining! ? 'It is raining' : 'It is not raining',
-                style: TextStyle(fontSize: 24),
-              ),
+        child: Text(
+          rainStatus,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
