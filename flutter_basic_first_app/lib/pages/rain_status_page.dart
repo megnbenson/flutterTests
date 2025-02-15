@@ -1,6 +1,7 @@
 // lib/pages/rain_status_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/models/utils/weather_utils.dart';
+import 'package:flutter_basic_first_app/pages/find_rain.dart';
 import '../widgets/weather_map_widget.dart';
 
 class RainStatusPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class RainStatusPage extends StatefulWidget {
 }
 
 class _RainStatusPageState extends State<RainStatusPage> {
-  String rainStatus = "Checking...";
+  String rainStatus = "Detecting...";
 
   @override
   void initState() {
@@ -23,6 +24,8 @@ class _RainStatusPageState extends State<RainStatusPage> {
   }
 
   Future<void> checkRainStatus() async {
+      await Future.delayed(Duration(seconds: 2));
+
     bool isRaining = await WeatherUtils.isItRaining(widget.latitude, widget.longitude);
     setState(() {
       rainStatus = isRaining ? "It is raining" : "It is not raining";
@@ -36,9 +39,29 @@ class _RainStatusPageState extends State<RainStatusPage> {
         title: Text('Rain Status'),
       ),
       body: Center(
-        child: Text(
-          rainStatus,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              rainStatus,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            // Show the button only if it is raining
+            if (rainStatus == "It is not raining")
+              ElevatedButton(
+                onPressed: () {
+                  // Navigate to the new GoHerePage
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FindRainPage(),
+                    ),
+                  );
+                },
+                child: Text('Go Here'),
+            ),
+          ],
         ),
       ),
     );
