@@ -1,8 +1,8 @@
 // lib/pages/rain_status_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/models/utils/weather_utils.dart';
 import 'package:flutter_basic_first_app/pages/find_rain.dart';
-import '../widgets/weather_map_widget.dart';
 
 class RainStatusPage extends StatefulWidget {
   final double latitude;
@@ -25,7 +25,9 @@ class _RainStatusPageState extends State<RainStatusPage> {
 
   Future<void> checkRainStatus() async {
       await Future.delayed(Duration(seconds: 2));
-
+    var lo = widget.longitude;
+    var la = widget.latitude;
+    print("check rain status: lon : $lo, lan: $la");
     bool isRaining = await WeatherUtils.isItRaining(widget.latitude, widget.longitude);
     setState(() {
       rainStatus = isRaining ? "It is raining" : "It is not raining";
@@ -55,7 +57,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const FindRainPage(),
+                      builder: (context) => FindRainPage(longitude: widget.longitude, latitude: widget.latitude),
                     ),
                   );
                 },
