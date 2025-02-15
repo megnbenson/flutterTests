@@ -1,6 +1,7 @@
 // lib/pages/home_page.dart
 import 'package:flutter/material.dart';
-import '../widgets/weather_map_widget.dart';
+import 'package:flutter_basic_first_app/pages/rain_status_page.dart';
+import 'package:flutter_basic_first_app/widgets/weather_map_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -24,10 +25,19 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => WeatherMapWidget()),
+                  MaterialPageRoute(builder: (context) => RainStatusPage()),
                 );
               },
               child: Text('BEGIN'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WeatherMapWidget()),
+                );
+              },
+              child: Text('See map'),
             ),
           ],
         ),
