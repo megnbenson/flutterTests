@@ -13,14 +13,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController latController =
-      TextEditingController(text: "51.517398");
+      TextEditingController(text: "55.9042"); //default lat 55.9042° N, 5.9414
   final TextEditingController lonController =
-      TextEditingController(text: "-0.059893");
+      TextEditingController(text: "-5.9414"); //default lon
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.amberAccent,
       ),
       body: Center(
         child: Column(

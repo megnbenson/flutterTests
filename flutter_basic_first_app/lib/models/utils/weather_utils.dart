@@ -50,7 +50,7 @@ class WeatherUtils {
       img.Image tileImage = img.decodeImage(Uint8List.fromList(tileResponse.bodyBytes))!;
 
       // Define a threshold for identifying rain based on color (e.g., blue indicates rain)
-      int rainColorThreshold = 50;
+      int rainColorThreshold = 25;
 
       // Check for the rain color in the image (blue being the primary indicator)
       for (int y = 0; y < tileImage.height; y += 10) {
@@ -60,8 +60,10 @@ class WeatherUtils {
           int g = img.getGreen(pixel);
           int b = img.getBlue(pixel);
 
+          print("r: $r, g: $g, b: $b");
           // If the blue component is significantly higher than red and green, it's likely rain
           if (b > r + rainColorThreshold && b > g + rainColorThreshold) {
+            print("true!!!!!");
             return true; // It is raining
           }
         }

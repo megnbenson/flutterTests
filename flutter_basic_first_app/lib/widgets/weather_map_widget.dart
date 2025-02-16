@@ -85,7 +85,7 @@ class _WeatherMapWidgetState extends State<WeatherMapWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weather Radar'),
+                // backgroundColor: Colors.amberAccent,
         actions: [
           IconButton(
             icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
