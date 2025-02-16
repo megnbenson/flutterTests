@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'rain_status_page.dart';
 import '../widgets/weather_map_widget.dart'; // Import the WeatherMapWidget
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,17 +21,58 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weather App'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'IS IT RAINING?',
-              style: TextStyle(fontSize: 24),
+              'IS IT \n RAINING?',
+              style: GoogleFonts.jost(fontSize: 44),
             ),
             SizedBox(height: 20),
+            Text(
+              '?',
+              style: GoogleFonts.jost(fontSize: 50),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                double lat = double.tryParse(latController.text) ?? 51.517398;
+                double lon = double.tryParse(lonController.text) ?? -0.059893;
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        RainStatusPage(latitude: lat, longitude: lon),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(),
+              backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
+              child: Text('BEGIN', style: GoogleFonts.jost(color: Colors.white)),
+            ),
+            SizedBox(height: 10), // Spacing between buttons
+            SizedBox(height: 150), // Spacing between buttons
+            ElevatedButton(
+              onPressed: () {
+                double lat = double.tryParse(latController.text) ?? 51.517398;
+                double lon = double.tryParse(lonController.text) ?? -0.059893;
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WeatherMapWidget(
+                      initialLatitude: lat,
+                      initialLongitude: lon,
+                    ),
+                  ),
+                );
+              },
+              child: Text('SEE MAP', style: GoogleFonts.jost()),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
@@ -55,39 +97,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                double lat = double.tryParse(latController.text) ?? 51.517398;
-                double lon = double.tryParse(lonController.text) ?? -0.059893;
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        RainStatusPage(latitude: lat, longitude: lon),
-                  ),
-                );
-              },
-              child: Text('BEGIN'),
-            ),
-            SizedBox(height: 10), // Spacing between buttons
-            ElevatedButton(
-              onPressed: () {
-                double lat = double.tryParse(latController.text) ?? 51.517398;
-                double lon = double.tryParse(lonController.text) ?? -0.059893;
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WeatherMapWidget(
-                      initialLatitude: lat,
-                      initialLongitude: lon,
-                    ),
-                  ),
-                );
-              },
-              child: Text('SEE MAP'),
-            ),
+            
           ],
         ),
       ),

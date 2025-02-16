@@ -12,8 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Weather App',
+      title: 'IS IT RAINING?',
+      debugShowCheckedModeBanner: false, 
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.amberAccent,
         primarySwatch: Colors.blue,
       ),
       home: HomePage(),  // Changed from WeatherMapWidget to HomePage

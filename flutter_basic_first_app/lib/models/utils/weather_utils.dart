@@ -145,7 +145,7 @@ class WeatherUtils {
       }
 
       if (comparisonPoints == 0) {
-        return "No significant rain movement detected";
+        return "No rain movement detected near you - sorry!";
       }
 
       // Calculate the direction

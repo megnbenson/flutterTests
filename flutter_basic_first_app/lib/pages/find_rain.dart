@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/utils/weather_utils.dart'; // Import WeatherUtils
 
 class FindRainPage extends StatefulWidget {
@@ -34,12 +35,12 @@ class _FindRainPageState extends State<FindRainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Go Here - Rain Direction'),
+        backgroundColor: Colors.amberAccent,
       ),
       body: Center(
         child: Text(
           rainDirection,
-          style: TextStyle(fontSize: 24),
+          style: GoogleFonts.jost(fontSize: 44),
         ),
       ),
     );
