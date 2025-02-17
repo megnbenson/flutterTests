@@ -57,15 +57,17 @@ class _FindRainPageState extends State<FindRainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: Colors.white,
       ),
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text("GO HERE", style: GoogleFonts.jost(fontSize: 44),),
             Text(
               rainDirection,
-              style: GoogleFonts.jost(fontSize: 44),
+              style: GoogleFonts.jost(fontSize: 24),
             ),
             const SizedBox(height: 40),
             if (rainDirection != "Loading rain direction..." &&
@@ -75,7 +77,7 @@ class _FindRainPageState extends State<FindRainPage> {
               Transform.rotate(
                 angle: arrowAngle * (3.141592653589793 / 180.0), // Convert degrees to radians
                 child: CustomPaint(
-                  size: const Size(100, 100),
+                  size: const Size(120, 160), // Made the arrow larger
                   painter: ArrowPainter(),
                 ),
               ),
@@ -90,20 +92,20 @@ class ArrowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.blue
+      ..color = Colors.black // Changed to black
       ..style = PaintingStyle.fill
       ..strokeWidth = 4.0;
 
     final path = Path();
     
-    // Draw arrow shaft
-    path.moveTo(size.width * 0.5, size.height * 0.8); // Start at bottom
-    path.lineTo(size.width * 0.5, size.height * 0.2); // Line to top
-    
-    // Draw arrow head
-    path.moveTo(size.width * 0.2, size.height * 0.4); // Left point
+    // Draw arrow body (wider shaft)
+    path.moveTo(size.width * 0.35, size.height * 0.8); // Left bottom
+    path.lineTo(size.width * 0.65, size.height * 0.8); // Right bottom
+    path.lineTo(size.width * 0.65, size.height * 0.4); // Right before head
+    path.lineTo(size.width * 0.8, size.height * 0.4); // Right edge before head
     path.lineTo(size.width * 0.5, size.height * 0.2); // Top point
-    path.lineTo(size.width * 0.8, size.height * 0.4); // Right point
+    path.lineTo(size.width * 0.2, size.height * 0.4); // Left edge before head
+    path.lineTo(size.width * 0.35, size.height * 0.4); // Left before head
     path.close();
 
     canvas.drawPath(path, paint);

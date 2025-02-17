@@ -13,9 +13,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController latController =
-      TextEditingController(text: "55.9042"); //default lat 55.9042° N, 5.9414
+      TextEditingController(text: "55.9042"); //default lat 55.9042° N, 5.9414 //51.517398
   final TextEditingController lonController =
-      TextEditingController(text: "-5.9414"); //default lon
+      TextEditingController(text: "-5.9414"); //default lon //-0.059893
 
   @override
   Widget build(BuildContext context) {

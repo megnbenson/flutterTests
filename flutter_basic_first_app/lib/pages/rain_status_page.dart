@@ -32,17 +32,18 @@ class _RainStatusPageState extends State<RainStatusPage> {
     print("check rain status: lon : $lo, lan: $la");
     bool isRaining = await WeatherUtils.isItRaining(widget.latitude, widget.longitude);
     setState(() {
-      rainStatus = isRaining ? "IT IS RAINING" : "IT IS NOT\n RAINING";
+      rainStatus = isRaining ? "IT IS\n RAINING!" : "IT IS NOT\n RAINING!";
     });
-    bgCol = isRaining ? Color.fromRGBO(84, 152, 255, 1) : Colors.amberAccent;
+    bgCol = isRaining ? Color.fromRGBO(84, 152, 255, 1) : Color.fromRGBO(206, 206, 205, 1);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: bgCol,
       ),
+      backgroundColor: bgCol,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -51,25 +52,31 @@ class _RainStatusPageState extends State<RainStatusPage> {
               rainStatus,
               style: GoogleFonts.jost(fontSize: 44),
             ),
-            SizedBox(height: 90),
             // Show the button only if it is raining
-            if(rainStatus == "IT IS RAINING")
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to the new GoHerePage
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FindRainPage(longitude: widget.longitude, latitude: widget.latitude),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(),
-                  backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-                child: Text('STILL RAINING?', style: GoogleFonts.jost(color: Colors.white)),
-              ),
-            if (rainStatus == "IT IS NOT\n RAINING")
+            if(rainStatus == "IT IS\n RAINING!")
+                Text(
+                  "!",
+                  style: GoogleFonts.jost(fontSize: 80),
+                ),
+            if(rainStatus == "IT IS\n RAINING!")
+                ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the new GoHerePage
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FindRainPage(longitude: widget.longitude, latitude: widget.latitude),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(),
+                    backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
+                  child: Text('STILL RAINING?', style: GoogleFonts.jost(color: Colors.white)),
+                ),
+
+            if (rainStatus == "IT IS NOT\n RAINING!")
+              // SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
                   // Navigate to the new GoHerePage
