@@ -31,12 +31,8 @@ class _HomePageState extends State<HomePage> {
               'IS IT \n RAINING?',
               style: GoogleFonts.jost(fontSize: 44),
             ),
-            SizedBox(height: 20),
-            Text(
-              '?',
-              style: GoogleFonts.jost(fontSize: 50),
-            ),
-            SizedBox(height: 20),
+            Image.asset('../assets/images/yellow_question_mark.png'),
+            SizedBox(height: 0),
             ElevatedButton(
               onPressed: () {
                 double lat = double.tryParse(latController.text) ?? 51.517398;
