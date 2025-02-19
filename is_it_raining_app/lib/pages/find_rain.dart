@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/utils/weather_utils.dart';
@@ -23,35 +24,38 @@ class _FindRainPageState extends State<FindRainPage> {
   }
 
   Future<void> _getRainDirection() async {
-    var lo = widget.longitude;
-    var la = widget.latitude;
-    print("getRainDirection: lon : $lo, lan: $la");
-    String direction = await WeatherUtils.getRainDirection(widget.latitude, widget.longitude);
-    
-    // Calculate the opposite angle based on the rain direction
-    double angle = 0.0;
-    switch (direction) {
-      case "Rain moving North":
-        angle = 180.0; // Point South
-        break;
-      case "Rain moving South":
-        angle = 0.0; // Point North
-        break;
-      case "Rain moving East":
-        angle = 270.0; // Point West
-        break;
-      case "Rain moving West":
-        angle = 90.0; // Point East
-        break;
-      default:
-        angle = 0.0;
-    }
+  var lo = widget.longitude;
+  var la = widget.latitude;
+  print("getRainDirection: lon : $lo, lat: $la");
 
-    setState(() {
-      rainDirection = direction;
-      arrowAngle = angle;
-    });
+  Map<String, String> result = await WeatherUtils.getRainDirection(widget.latitude, widget.longitude);
+
+  String direction = result["direction"]!;
+  String intensity = result["intensity"]!;
+
+  double angle = 0.0;
+  switch (direction) {
+    case "Rain moving North":
+      angle = 180.0; // Point South
+      break;
+    case "Rain moving South":
+      angle = 0.0; // Point North
+      break;
+    case "Rain moving East":
+      angle = 270.0; // Point West
+      break;
+    case "Rain moving West":
+      angle = 90.0; // Point East
+      break;
+    default:
+      angle = 0.0;
   }
+
+  setState(() {
+    rainDirection = "$direction ($intensity)";
+    arrowAngle = angle;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +79,13 @@ class _FindRainPageState extends State<FindRainPage> {
                 !rainDirection.startsWith("Error") &&
                 !rainDirection.startsWith("Insufficient"))
               Transform.rotate(
-                angle: arrowAngle * (3.141592653589793 / 180.0), // Convert degrees to radians
+                angle: arrowAngle * (pi / 180.0),
                 child: CustomPaint(
-                  size: const Size(120, 160), // Made the arrow larger
-                  painter: ArrowPainter(),
+                  size: const Size(120, 160),
+                  painter: ArrowPainter(intensity: rainDirection.split('(').last.replaceAll(')', '').trim()),
                 ),
               ),
+
           ],
         ),
       ),
@@ -89,23 +94,40 @@ class _FindRainPageState extends State<FindRainPage> {
 }
 
 class ArrowPainter extends CustomPainter {
+  final String intensity;
+
+  ArrowPainter({required this.intensity});
+
   @override
   void paint(Canvas canvas, Size size) {
+    Color arrowColor;
+    switch (intensity) {
+      case "Heavy Rain":
+        arrowColor = Colors.red;
+        break;
+      case "Moderate Rain":
+        arrowColor = Colors.orange;
+        break;
+      case "Light Rain":
+        arrowColor = Colors.blue;
+        break;
+      default:
+        arrowColor = Colors.black;
+    }
+
     final paint = Paint()
-      ..color = Colors.black // Changed to black
+      ..color = arrowColor
       ..style = PaintingStyle.fill
       ..strokeWidth = 4.0;
 
     final path = Path();
-    
-    // Draw arrow body (wider shaft)
-    path.moveTo(size.width * 0.35, size.height * 0.8); // Left bottom
-    path.lineTo(size.width * 0.65, size.height * 0.8); // Right bottom
-    path.lineTo(size.width * 0.65, size.height * 0.4); // Right before head
-    path.lineTo(size.width * 0.8, size.height * 0.4); // Right edge before head
-    path.lineTo(size.width * 0.5, size.height * 0.2); // Top point
-    path.lineTo(size.width * 0.2, size.height * 0.4); // Left edge before head
-    path.lineTo(size.width * 0.35, size.height * 0.4); // Left before head
+    path.moveTo(size.width * 0.35, size.height * 0.8);
+    path.lineTo(size.width * 0.65, size.height * 0.8);
+    path.lineTo(size.width * 0.65, size.height * 0.4);
+    path.lineTo(size.width * 0.8, size.height * 0.4);
+    path.lineTo(size.width * 0.5, size.height * 0.2);
+    path.lineTo(size.width * 0.2, size.height * 0.4);
+    path.lineTo(size.width * 0.35, size.height * 0.4);
     path.close();
 
     canvas.drawPath(path, paint);

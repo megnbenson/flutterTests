@@ -77,37 +77,23 @@ class WeatherUtils {
   }
 
    // New method to calculate the direction of rain
-  static Future<String> getRainDirection(double latitude, double longitude, {int zoomLevel = 10, int movementThreshold = 10}) async {
+  static Future<Map<String, String>> getRainDirection(double latitude, double longitude) async {
     try {
-      final response = await http.get(
-        Uri.parse('https://api.rainviewer.com/public/weather-maps.json'),
-      );
-
-      if (response.statusCode != 200) {
-        throw Exception('Failed to load weather data');
-      }
+      final response = await http.get(Uri.parse('https://api.rainviewer.com/public/weather-maps.json'));
+      if (response.statusCode != 200) throw Exception('Failed to load weather data');
 
       WeatherData weatherData = WeatherData.fromJson(json.decode(response.body));
+      if (weatherData.past.isEmpty || weatherData.forecast.isEmpty) return {"direction": "Insufficient data", "intensity": "Unknown"};
 
-      // Ensure we have both past and forecast data
-      if (weatherData.past.isEmpty || weatherData.forecast.isEmpty) {
-        print("insufficient data");
-        return "Insufficient data to determine rain direction";
-      }
-
-      // Use the first past frame and the first future frame (forecast)
       WeatherFrame firstPastFrame = weatherData.past.first;
       WeatherFrame firstForecastFrame = weatherData.forecast.first;
 
-      // Calculate the tile positions for both past and forecast frames
-      int tileXPast = _getTileX(longitude, zoomLevel);
-      int tileYPast = _getTileY(latitude, zoomLevel);
-      int tileXForecast = _getTileX(longitude, zoomLevel);
-      int tileYForecast = _getTileY(latitude, zoomLevel);
+      int zoomLevel = 10;
+      int tileX = _getTileX(longitude, zoomLevel);
+      int tileY = _getTileY(latitude, zoomLevel);
 
-      // Retrieve tile images for both frames
-      String pastTileUrl = '${weatherData.host}${firstPastFrame.path}/256/$zoomLevel/$tileXPast/$tileYPast/2/1_1.png';
-      String forecastTileUrl = '${weatherData.host}${firstForecastFrame.path}/256/$zoomLevel/$tileXForecast/$tileYForecast/2/1_1.png';
+      String pastTileUrl = '${weatherData.host}${firstPastFrame.path}/256/$zoomLevel/$tileX/$tileY/2/1_1.png';
+      String forecastTileUrl = '${weatherData.host}${firstForecastFrame.path}/256/$zoomLevel/$tileX/$tileY/2/1_1.png';
 
       final pastTileResponse = await http.get(Uri.parse(pastTileUrl));
       final forecastTileResponse = await http.get(Uri.parse(forecastTileUrl));
@@ -119,51 +105,31 @@ class WeatherUtils {
       img.Image pastTileImage = img.decodeImage(Uint8List.fromList(pastTileResponse.bodyBytes))!;
       img.Image forecastTileImage = img.decodeImage(Uint8List.fromList(forecastTileResponse.bodyBytes))!;
 
-      // Calculate the shift in the rain pattern
-      int width = pastTileImage.width;
-      int height = pastTileImage.height;
-      int totalShiftX = 0;
-      int totalShiftY = 0;
-      int comparisonPoints = 0;
+      // Use both past & forecast images to determine direction
+      var stormDataPast = getStormCenter(pastTileImage);
+      var stormDataForecast = getStormCenter(forecastTileImage);
 
-      for (int y = 0; y < height; y += 10) {
-        for (int x = 0; x < width; x += 10) {
-          int pastPixel = pastTileImage.getPixel(x, y);
-          int forecastPixel = forecastTileImage.getPixel(x, y);
-
-          // Check if the pixel indicates rain (blue color)
-          if (_isRainPixel(pastPixel) && _isRainPixel(forecastPixel)) {
-            // Calculate the shift only if it's above the movement threshold
-            int shiftX = (x - width / 2).abs() as int;
-            int shiftY = (y - height / 2).abs() as int;
-
-            if (shiftX > movementThreshold || shiftY > movementThreshold) {
-              totalShiftX += (x - width / 2) as int;
-              totalShiftY += (y - height / 2) as int;
-              comparisonPoints++;
-            }
-          }
-        }
+      if (stormDataPast["centerX"] == null || stormDataForecast["centerX"] == null) {
+        return {"direction": "No rain detected", "intensity": "None"};
       }
 
-      if (comparisonPoints == 0) {
-        return "No rain movement detected near you - sorry!";
-      }
+      String direction = getArrowDirection(
+        stormDataPast["centerX"], stormDataPast["centerY"], 
+        stormDataForecast["centerX"], stormDataForecast["centerY"]
+      );
 
-      // Calculate the direction
-      double averageShiftX = totalShiftX / comparisonPoints;
-      double averageShiftY = totalShiftY / comparisonPoints;
+      String intensity = stormDataForecast["intensity"] > 0.2 ? "Heavy Rain" 
+                        : stormDataForecast["intensity"] > 0.05 ? "Moderate Rain" 
+                        : "Light Rain";
 
-      if (averageShiftX.abs() > averageShiftY.abs()) {
-        return averageShiftX > 0 ? "Rain moving East" : "Rain moving West";
-      } else {
-        return averageShiftY > 0 ? "Rain moving South" : "Rain moving North";
-      }
+      return {"direction": direction, "intensity": intensity};
     } catch (e) {
       print('Error determining rain direction: $e');
-      return "Error calculating rain direction";
+      return {"direction": "Error", "intensity": "Unknown"};
     }
   }
+
+
 
   // Helper method to calculate the tile X position based on longitude and zoom level
   static int _getTileX(double longitude, int zoomLevel) {
@@ -184,4 +150,44 @@ class WeatherUtils {
     // Simple condition where blue indicates rain
     return b > r + 50 && b > g + 50;
   }
+  
+  static Map<String, dynamic> getStormCenter(img.Image tileImage) {
+    int width = tileImage.width;
+    int height = tileImage.height;
+    int totalX = 0, totalY = 0, rainPixels = 0;
+    double intensitySum = 0.0;
+
+    for (int y = 0; y < height; y += 5) { // Sample every 5 pixels
+      for (int x = 0; x < width; x += 5) {
+        int pixel = tileImage.getPixel(x, y);
+        if (_isRainPixel(pixel)) {
+          totalX += x;
+          totalY += y;
+          rainPixels++;
+          intensitySum += img.getBlue(pixel) / 255.0; // Normalize intensity
+        }
+      }
+    }
+
+    if (rainPixels == 0) return {"centerX": null, "centerY": null, "intensity": 0.0};
+
+    return {
+      "centerX": totalX ~/ rainPixels,
+      "centerY": totalY ~/ rainPixels,
+      "intensity": intensitySum / rainPixels
+    };
+  }
+
+  static String getArrowDirection(int pastX, int pastY, int futureX, int futureY) {
+    int dx = futureX - pastX;
+    int dy = futureY - pastY;
+
+    if (dx.abs() > dy.abs()) {
+      return dx > 0 ? "Rain moving East" : "Rain moving West";
+    } else {
+      return dy > 0 ? "Rain moving South" : "Rain moving North";
+    }
+  }
+
+
 }
