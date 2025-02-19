@@ -94,7 +94,8 @@ class _RainStatusPageState extends State<RainStatusPage> {
                 ),
 
             if (rainStatus == "IT IS NOT\n RAINING!")
-              // SizedBox(height: 50),
+              Image.asset('../assets/images/greyXcloud.png'),
+            if (rainStatus == "IT IS NOT\n RAINING!")
               ElevatedButton(
                 onPressed: () {
                   // Navigate to the new GoHerePage
@@ -111,6 +112,8 @@ class _RainStatusPageState extends State<RainStatusPage> {
                 child: Text('FIND RAIN?', style: GoogleFonts.jost(color: Colors.white)),
             ),
             if (rainStatus == "IT IS NOT\n RAINING!")
+              SizedBox(height: 20),
+            if (rainStatus == "IT IS NOT\n RAINING!")
               ElevatedButton(
                     onPressed: () {
                       // Navigate to the new GoHerePage
@@ -126,8 +129,6 @@ class _RainStatusPageState extends State<RainStatusPage> {
                       backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
                     child: Text("YES IT IS", style: GoogleFonts.jost(color: Colors.white)),
                   ),
-            if (rainStatus == "IT IS NOT\n RAINING!")
-              Image.asset('../assets/images/greyXcloud.png'),
           ],
         ),
       ),

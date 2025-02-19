@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
               child: Text('BEGIN', style: GoogleFonts.jost(color: Colors.white)),
             ),
             SizedBox(height: 10), // Spacing between buttons
-            SizedBox(height: 150), // Spacing between buttons
+            SizedBox(height: 70), // Spacing between buttons
             ElevatedButton(
               onPressed: () {
                 double lat = double.tryParse(latController.text) ?? 51.517398;
