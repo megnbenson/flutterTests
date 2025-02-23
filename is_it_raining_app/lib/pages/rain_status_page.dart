@@ -54,11 +54,11 @@ class _RainStatusPageState extends State<RainStatusPage> {
               style: GoogleFonts.jost(fontSize: 44),
             ),
             if(rainStatus == "DETECTING...")
-              Image.asset('../assets/images/magnifyingCloud.png'),
+              Image.asset('../assets/gifs/NB_Detecting_Cloud_Animation.gif',width: 250,),
 
             // Show the button only if it is raining
             if(rainStatus == "IT IS\n RAINING!")
-              Image.asset('../assets/images/blueExclamationCloud.png'),
+              Image.asset('../assets/gifs/NB_It_is_Raining_Cloud_Animation.gif', width: 250),
             if(rainStatus == "IT IS\n RAINING!")
                 ElevatedButton(
                   onPressed: () {
@@ -66,7 +66,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WhyUsePage(longitude: widget.longitude, latitude: widget.latitude),
+                        builder: (context) => FindRainPage(longitude: widget.longitude, latitude: widget.latitude),
                       ),
                     );
                   },
@@ -75,7 +75,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
                     backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
                   child: Text('STILL RAINING?', style: GoogleFonts.jost(color: Colors.white)),
                 ),
-            SizedBox(height: 20),
+            // SizedBox(height: 20),
             if(rainStatus == "IT IS\n RAINING!")
                 ElevatedButton(
                   onPressed: () {
@@ -94,7 +94,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
                 ),
 
             if (rainStatus == "IT IS NOT\n RAINING!")
-              Image.asset('../assets/images/greyXcloud.png'),
+              Image.asset('../assets/gifs/NB_Not_Raining_Cloud_Animation.gif', width: 250,),
             if (rainStatus == "IT IS NOT\n RAINING!")
               ElevatedButton(
                 onPressed: () {

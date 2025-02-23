@@ -29,10 +29,10 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(
               'IS IT \n RAINING?',
-              style: GoogleFonts.jost(fontSize: 44),
+              style: GoogleFonts.jost(fontSize: 40),
             ),
-            Image.asset('../assets/images/yellow_question_mark.png'),
-            SizedBox(height: 0),
+            Image.asset('../assets/gifs/NB_Home_Screen_Cloud_Animation.gif', width: 250,),
+            // SizedBox(height: 0),
             ElevatedButton(
               onPressed: () {
                 double lat = double.tryParse(latController.text) ?? 51.517398;
@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> {
               child: Text('BEGIN', style: GoogleFonts.jost(color: Colors.white)),
             ),
             SizedBox(height: 10), // Spacing between buttons
-            SizedBox(height: 70), // Spacing between buttons
             ElevatedButton(
               onPressed: () {
                 double lat = double.tryParse(latController.text) ?? 51.517398;
