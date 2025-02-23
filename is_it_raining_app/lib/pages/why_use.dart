@@ -30,7 +30,7 @@ class _WhyUsePageState extends State<WhyUsePage> {
           children: [
             Text(
               "WHY ARE YOU\n EVEN USING\n THIS APP... ",
-              style: GoogleFonts.jost(fontSize: 44),
+              style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
             ),
                 Image.asset('../assets/images/cat.gif', width: 300,),
                 SizedBox(height: 50),
@@ -47,7 +47,9 @@ class _WhyUsePageState extends State<WhyUsePage> {
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(),
                     backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-                  child: Text('CHECK AGAIN', style: GoogleFonts.jost(color: Colors.white)),
+                  child: Text('CHECK AGAIN', 
+              style: TextStyle(fontFamily: 'MegFont', color: Colors.white),
+                  ),
                 ),
           ],
         ),

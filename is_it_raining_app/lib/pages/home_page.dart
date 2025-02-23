@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(
               'IS IT \n RAINING?',
-              style: GoogleFonts.jost(fontSize: 40),
+              style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
             ),
             Image.asset('../assets/gifs/NB_Home_Screen_Cloud_Animation.gif', width: 250,),
             // SizedBox(height: 0),
@@ -49,50 +49,52 @@ class _HomePageState extends State<HomePage> {
               style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(),
               backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-              child: Text('BEGIN', style: GoogleFonts.jost(color: Colors.white)),
+              child: Text('BEGIN', 
+              style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24),
+              ),
             ),
             SizedBox(height: 10), // Spacing between buttons
-            ElevatedButton(
-              onPressed: () {
-                double lat = double.tryParse(latController.text) ?? 51.517398;
-                double lon = double.tryParse(lonController.text) ?? -0.059893;
+            // ElevatedButton(
+            //   onPressed: () {
+            //     double lat = double.tryParse(latController.text) ?? 51.517398;
+            //     double lon = double.tryParse(lonController.text) ?? -0.059893;
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WeatherMapWidget(
-                      initialLatitude: lat,
-                      initialLongitude: lon,
-                    ),
-                  ),
-                );
-              },
-              child: Text('SEE MAP', style: GoogleFonts.jost()),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                controller: latController,
-                decoration: InputDecoration(
-                  labelText: 'Enter Latitude',
-                  border: OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.number,
-              ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                controller: lonController,
-                decoration: InputDecoration(
-                  labelText: 'Enter Longitude',
-                  border: OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.number,
-              ),
-            ),
-            SizedBox(height: 20),
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => WeatherMapWidget(
+            //           initialLatitude: lat,
+            //           initialLongitude: lon,
+            //         ),
+            //       ),
+            //     );
+            //   },
+            //   child: Text('SEE MAP'),
+            // ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 20),
+            //   child: TextField(
+            //     controller: latController,
+            //     decoration: InputDecoration(
+            //       labelText: 'Enter Latitude',
+            //       border: OutlineInputBorder(),
+            //     ),
+            //     keyboardType: TextInputType.number,
+            //   ),
+            // ),
+            // SizedBox(height: 10),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 20),
+            //   child: TextField(
+            //     controller: lonController,
+            //     decoration: InputDecoration(
+            //       labelText: 'Enter Longitude',
+            //       border: OutlineInputBorder(),
+            //     ),
+            //     keyboardType: TextInputType.number,
+            //   ),
+            // ),
+            // SizedBox(height: 20),
             
           ],
         ),

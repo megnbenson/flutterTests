@@ -51,7 +51,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
           children: [
             Text(
               rainStatus,
-              style: GoogleFonts.jost(fontSize: 44),
+              style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
             ),
             if(rainStatus == "DETECTING...")
               Image.asset('../assets/gifs/NB_Detecting_Cloud_Animation.gif',width: 250,),
@@ -59,6 +59,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
             // Show the button only if it is raining
             if(rainStatus == "IT IS\n RAINING!")
               Image.asset('../assets/gifs/NB_It_is_Raining_Cloud_Animation.gif', width: 250),
+                // SizedBox(height: 20),
             if(rainStatus == "IT IS\n RAINING!")
                 ElevatedButton(
                   onPressed: () {
@@ -73,7 +74,9 @@ class _RainStatusPageState extends State<RainStatusPage> {
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(),
                     backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-                  child: Text('STILL RAINING?', style: GoogleFonts.jost(color: Colors.white)),
+                  child: Text('STILL RAINING?', 
+                  style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24 ),
+                  ),
                 ),
             // SizedBox(height: 20),
             if(rainStatus == "IT IS\n RAINING!")
@@ -90,11 +93,15 @@ class _RainStatusPageState extends State<RainStatusPage> {
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(),
                     backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-                  child: Text("NO IT ISN'T", style: GoogleFonts.jost(color: Colors.white)),
+                  child: Text("NO IT ISN'T", 
+              style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24),
+                  ),
                 ),
 
             if (rainStatus == "IT IS NOT\n RAINING!")
-              Image.asset('../assets/gifs/NB_Not_Raining_Cloud_Animation.gif', width: 250,),
+              Image.asset('../assets/gifs/cropped_Not_Raining.gif', width: 250,),
+                SizedBox(height: 20),
+            
             if (rainStatus == "IT IS NOT\n RAINING!")
               ElevatedButton(
                 onPressed: () {
@@ -109,7 +116,9 @@ class _RainStatusPageState extends State<RainStatusPage> {
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(),
                   backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-                child: Text('FIND RAIN?', style: GoogleFonts.jost(color: Colors.white)),
+                child: Text('FIND RAIN?', 
+              style: TextStyle(fontFamily: 'MegFont', color: Colors.white),
+                ),
             ),
             if (rainStatus == "IT IS NOT\n RAINING!")
               SizedBox(height: 20),
@@ -127,7 +136,9 @@ class _RainStatusPageState extends State<RainStatusPage> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(),
                       backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-                    child: Text("YES IT IS", style: GoogleFonts.jost(color: Colors.white)),
+                    child: Text("YES IT IS", 
+              style: TextStyle(fontFamily: 'MegFont', color: Colors.white),
+                    ),
                   ),
           ],
         ),

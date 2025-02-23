@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.amberAccent,
         primarySwatch: Colors.blue,
+        fontFamily: 'RainFont'
       ),
       home: HomePage(),  // Changed from WeatherMapWidget to HomePage
     );

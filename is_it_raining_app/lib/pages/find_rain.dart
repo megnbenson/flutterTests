@@ -48,7 +48,7 @@ class _FindRainPageState extends State<FindRainPage> {
       angle = 90.0; // Point East
       break;
     default:
-      angle = 0.0;
+      angle = Random().nextDouble() * 90;
   }
 
   setState(() {
@@ -68,24 +68,35 @@ class _FindRainPageState extends State<FindRainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("GO HERE", style: GoogleFonts.jost(fontSize: 44),),
-            Text(
-              rainDirection,
-              style: GoogleFonts.jost(fontSize: 24),
+            Text("GO HERE", 
+              style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
             ),
-            const SizedBox(height: 40),
-            if (rainDirection != "Loading rain direction..." &&
-                rainDirection != "No rain movement detected near you - sorry!" &&
-                !rainDirection.startsWith("Error") &&
-                !rainDirection.startsWith("Insufficient"))
-              Transform.rotate(
+            Text(
+              "DEBUGMODE: " + rainDirection,
+              style: TextStyle(fontFamily: 'MegFont', fontSize: 24),
+            ),
+            // const SizedBox(height: 10),
+            Transform.rotate(
                 angle: arrowAngle * (pi / 180.0),
-                child: CustomPaint(
-                  size: const Size(120, 160),
-                  painter: ArrowPainter(intensity: rainDirection.split('(').last.replaceAll(')', '').trim()),
+                child: Container(
+                  padding: const EdgeInsets.all(0.5),
+                  // color:  const Color(0xFFE8581C),
+                  child: Image.asset('../assets/gifs/Arrow_cropped.gif', width: 50)
+                  ),
                 ),
-              ),
-
+              // Transform.rotate(
+              //   angle: arrowAngle * (pi / 180.0),
+              //   child: Container(
+              //     padding: const EdgeInsets.all(0.2),
+              //     // color:  const Color(0xFFE8581C),
+              //     child:  
+              //       CustomPaint(
+              //         size: const Size(120, 160),
+              //         painter: ArrowPainter(intensity: rainDirection.split('(').last.replaceAll(')', '').trim()),
+              //       ),
+              //     ),
+              //   ),
+              Image.asset('../assets/gifs/full_cup.gif', width: 100)
           ],
         ),
       ),
