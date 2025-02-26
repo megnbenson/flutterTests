@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_first_app/pages/find_rain.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
 import 'package:flutter_basic_first_app/pages/rain_status_page.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class WhyUsePage extends StatefulWidget {
   final double latitude;

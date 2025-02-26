@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../models/utils/weather_utils.dart';
 
 class FindRainPage extends StatefulWidget {
@@ -82,7 +81,7 @@ class _FindRainPageState extends State<FindRainPage> {
               style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
             ),
             Text(
-              "DEBUGMODE: " + rainDirection,
+              "DEBUGMODE: $rainDirection",
               style: TextStyle(fontFamily: 'MegFont', fontSize: 24),
             ),
             // const SizedBox(height: 10),

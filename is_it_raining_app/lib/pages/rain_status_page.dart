@@ -5,7 +5,6 @@ import 'package:flutter_basic_first_app/models/utils/weather_utils.dart';
 import 'package:flutter_basic_first_app/pages/find_rain.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
 import 'package:flutter_basic_first_app/pages/why_use.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RainStatusPage extends StatefulWidget {
   final double latitude;

@@ -55,10 +55,11 @@ class WeatherUtils {
       // Check for the rain color in the image (blue being the primary indicator)
       for (int y = 0; y < tileImage.height; y += 10) {
         for (int x = 0; x < tileImage.width; x += 10) {
-          int pixel = tileImage.getPixel(x, y);
-          int r = img.getRed(pixel);
-          int g = img.getGreen(pixel);
-          int b = img.getBlue(pixel);
+          // Get pixel color components using the updated API
+          img.Pixel pixel = tileImage.getPixel(x, y);
+          num r = pixel.r;
+          num g = pixel.g;
+          num b = pixel.b;
 
           print("r: $r, g: $g, b: $b");
           // If the blue component is significantly higher than red and green, it's likely rain
@@ -129,8 +130,6 @@ class WeatherUtils {
     }
   }
 
-
-
   // Helper method to calculate the tile X position based on longitude and zoom level
   static int _getTileX(double longitude, int zoomLevel) {
     return ((longitude + 180.0) / 360.0 * (1 << zoomLevel)).toInt();
@@ -142,10 +141,10 @@ class WeatherUtils {
   }
 
   // Helper method to check if a pixel represents rain (based on color)
-  static bool _isRainPixel(int pixel) {
-    int r = img.getRed(pixel);
-    int g = img.getGreen(pixel);
-    int b = img.getBlue(pixel);
+  static bool _isRainPixel(img.Pixel pixel) {
+    num r = pixel.r;
+    num g = pixel.g;
+    num b = pixel.b;
 
     // Simple condition where blue indicates rain
     return b > r + 50 && b > g + 50;
@@ -159,12 +158,12 @@ class WeatherUtils {
 
     for (int y = 0; y < height; y += 5) { // Sample every 5 pixels
       for (int x = 0; x < width; x += 5) {
-        int pixel = tileImage.getPixel(x, y);
+        img.Pixel pixel = tileImage.getPixel(x, y);
         if (_isRainPixel(pixel)) {
           totalX += x;
           totalY += y;
           rainPixels++;
-          intensitySum += img.getBlue(pixel) / 255.0; // Normalize intensity
+          intensitySum += pixel.b / 255.0; // Normalize intensity
         }
       }
     }
@@ -188,6 +187,4 @@ class WeatherUtils {
       return dy > 0 ? "Rain moving South" : "Rain moving North";
     }
   }
-
-
 }

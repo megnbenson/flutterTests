@@ -1,8 +1,7 @@
 // lib/pages/home_page.dart
 import 'package:flutter/material.dart';
 import 'rain_status_page.dart';
-import '../widgets/weather_map_widget.dart'; // Import the WeatherMapWidget
-import 'package:google_fonts/google_fonts.dart';
+import 'package:geolocator/geolocator.dart'; 
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -11,7 +11,7 @@ class WeatherMapWidget extends StatefulWidget {
   final double initialLatitude;
   final double initialLongitude;
 
-  WeatherMapWidget({required this.initialLatitude, required this.initialLongitude});
+  const WeatherMapWidget({super.key, required this.initialLatitude, required this.initialLongitude});
 
   @override
   _WeatherMapWidgetState createState() => _WeatherMapWidgetState();
@@ -99,8 +99,8 @@ class _WeatherMapWidgetState extends State<WeatherMapWidget> {
             child: FlutterMap(
               mapController: mapController,
               options: MapOptions(
-                center: LatLng(widget.initialLatitude, widget.initialLongitude), // Use passed lat/lon
-                zoom: 17,
+                initialCenter: LatLng(widget.initialLatitude, widget.initialLongitude), // Use passed lat/lon
+                initialZoom: 17.0,
               ),
               children: [
                 TileLayer(
