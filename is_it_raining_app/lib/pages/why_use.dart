@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
 import 'package:flutter_basic_first_app/pages/rain_status_page.dart';
+import 'package:flutter_svg/svg.dart';
 
 class WhyUsePage extends StatefulWidget {
   final double latitude;
@@ -36,11 +37,13 @@ class _WhyUsePageState extends State<WhyUsePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "WHY ARE YOU\n EVEN USING\n THIS APP... ",
-              style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
-            ),
-                Image.asset('../assets/images/cat.gif', width: 250,),
+            SvgPicture.asset( 
+                    'assets/images/WHY_ARE_YOU_EVEN_USING_THIS_APP.svg', 
+                    semanticsLabel: 'Why are you even using this app', 
+                    height: 100, 
+                    width: 70, 
+                  ),
+                Image.asset('assets/images/cat.gif', width: 250,),
                 // SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () {

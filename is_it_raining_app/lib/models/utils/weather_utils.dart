@@ -61,10 +61,9 @@ class WeatherUtils {
           num g = pixel.g;
           num b = pixel.b;
 
-          print("r: $r, g: $g, b: $b");
+          // print("r: $r, g: $g, b: $b");
           // If the blue component is significantly higher than red and green, it's likely rain
           if (b > r + rainColorThreshold && b > g + rainColorThreshold) {
-            print("true!!!!!");
             return true; // It is raining
           }
         }

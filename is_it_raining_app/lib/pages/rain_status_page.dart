@@ -5,6 +5,7 @@ import 'package:flutter_basic_first_app/models/utils/weather_utils.dart';
 import 'package:flutter_basic_first_app/pages/find_rain.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
 import 'package:flutter_basic_first_app/pages/why_use.dart';
+import 'package:flutter_svg/svg.dart';
 
 class RainStatusPage extends StatefulWidget {
   final double latitude;
@@ -28,9 +29,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
 
   Future<void> checkRainStatus() async {
       await Future.delayed(Duration(seconds: 2));
-    var lo = widget.longitude;
-    var la = widget.latitude;
-    print("check rain status: lon : $lo, lan: $la");
+    // print("check rain status: lon : $lo, lan: $la");
     bool isRaining = await WeatherUtils.isItRaining(widget.latitude, widget.longitude);
     setState(() {
       rainStatus = isRaining ? "IT IS\n RAINING!" : "IT IS NOT\n RAINING!";
@@ -58,17 +57,34 @@ class _RainStatusPageState extends State<RainStatusPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              rainStatus,
-              style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
-            ),
+            // Text(
+            //   rainStatus,
+            //   style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
+            // ),
             if(rainStatus == "DETECTING...")
-              Image.asset('../assets/gifs/NB_Detecting_Cloud_Animation.gif',width: 250,),
+              SvgPicture.asset( 
+                'assets/images/DETECTING.svg', 
+                semanticsLabel: 'Is it raining', 
+                height: 100, 
+                width: 70, 
+              ),
+            if(rainStatus == "DETECTING...")
+              Image.asset('assets/gifs/NB_Detecting_Cloud_Animation.gif',width: 250,),
 
+            
+              
             // Show the button only if it is raining
             if(rainStatus == "IT IS\n RAINING!")
-              Image.asset('../assets/gifs/NB_It_is_Raining_Cloud_Animation.gif', width: 250),
-                // SizedBox(height: 20),
+              SvgPicture.asset( 
+                  'assets/images/IT_IS_RAINING!.svg', 
+                  semanticsLabel: 'Is it raining!', 
+                  height: 100, 
+                  width: 70, 
+                ),
+
+            if(rainStatus == "IT IS\n RAINING!")
+              Image.asset('assets/gifs/NB_It_is_Raining_Cloud_Animation.gif', width: 250),
+
             if(rainStatus == "IT IS\n RAINING!")
                 ElevatedButton(
                   onPressed: () {
@@ -87,7 +103,6 @@ class _RainStatusPageState extends State<RainStatusPage> {
                   style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24 ),
                   ),
                 ),
-            // SizedBox(height: 20),
             if(rainStatus == "IT IS\n RAINING!")
                 ElevatedButton(
                   onPressed: () {
@@ -108,7 +123,15 @@ class _RainStatusPageState extends State<RainStatusPage> {
                 ),
 
             if (rainStatus == "IT IS NOT\n RAINING!")
-              Image.asset('../assets/gifs/cropped_Not_Raining.gif', width: 250,),
+              SvgPicture.asset( 
+                    'assets/images/IT_IS_RAINING!.svg', 
+                    semanticsLabel: 'Is it raining!', 
+                    height: 100, 
+                    width: 70, 
+                  ),
+                  
+            if (rainStatus == "IT IS NOT\n RAINING!")
+              Image.asset('assets/gifs/cropped_Not_Raining.gif', width: 250,),
                 SizedBox(height: 20),
             
             if (rainStatus == "IT IS NOT\n RAINING!")

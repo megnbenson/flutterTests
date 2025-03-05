@@ -1,7 +1,9 @@
 // lib/pages/home_page.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_basic_first_app/widgets/weather_map_widget.dart';
+import 'package:flutter_svg/svg.dart';
 import 'rain_status_page.dart';
-import 'package:geolocator/geolocator.dart'; 
+import 'package:geolocator/geolocator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,10 +13,68 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final TextEditingController latController =
-      TextEditingController(text: "55.9042"); //default lat 55.9042° N, 5.9414 //51.517398
-  final TextEditingController lonController =
-      TextEditingController(text: "-5.9414"); //default lon //-0.059893
+  // Default coordinates to use as fallback
+  final double defaultLat = 51.517398;
+  final double defaultLon = -0.059893;
+  
+  // Location state variables
+  bool isLoading = false;
+  String locationStatus = '';
+
+  Future<Position?> getUserLocation() async {
+    setState(() {
+      isLoading = true;
+      locationStatus = 'Getting location...';
+    });
+    
+    try {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        setState(() {
+          locationStatus = 'Location services disabled';
+          isLoading = false;
+        });
+        return null;
+      }
+      
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          setState(() {
+            locationStatus = 'Location permission denied';
+            isLoading = false;
+          });
+          return null;
+        }
+      }
+      
+      if (permission == LocationPermission.deniedForever) {
+        setState(() {
+          locationStatus = 'Location permissions permanently denied';
+          isLoading = false;
+        });
+        return null;
+      }
+      
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high
+      );
+      
+      setState(() {
+        locationStatus = 'Location obtained';
+        isLoading = false;
+      });
+      
+      return position;
+    } catch (e) {
+      setState(() {
+        locationStatus = 'Error: $e';
+        isLoading = false;
+      });
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,30 +82,50 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.amberAccent,
         leading: IconButton(
-        icon: Icon(Icons.home),  // You can use Icons.arrow_back if you prefer
-        onPressed: () {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HomePage()),
-            (route) => false,
-          );
-        },
-      ),
+          icon: Icon(Icons.home),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => HomePage()),
+              (route) => false,
+            );
+          },
+        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'IS IT \n RAINING?',
-              style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
+            // Text(
+            //   'IS IT \n RAINING?',
+            //   style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
+            // ),
+            SvgPicture.asset( 
+              'assets/images/IS_IT_RAINING.svg', 
+              semanticsLabel: 'Is it raining', 
+              height: 100, 
+              width: 70, 
             ),
-            Image.asset('../assets/gifs/NB_Home_Screen_Cloud_Animation.gif', width: 250,),
-            // SizedBox(height: 0),
+            Image.asset('assets/gifs/NB_Home_Screen_Cloud_Animation.gif', width: 250),
+            if (isLoading) 
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color.fromRGBO(52, 184, 255,
+                 1)),
+              ),
+            if (locationStatus.isNotEmpty && !isLoading)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  locationStatus,
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              ),
             ElevatedButton(
-              onPressed: () {
-                double lat = double.tryParse(latController.text) ?? 51.517398;
-                double lon = double.tryParse(lonController.text) ?? -0.059893;
-
+              onPressed: () async {
+                Position? position = await getUserLocation();
+                
+                double lat = position?.latitude ?? defaultLat;
+                double lon = position?.longitude ?? defaultLon;
+                
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -55,30 +135,33 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(),
-              backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-              child: Text('BEGIN', 
-              style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24),
+                shape: RoundedRectangleBorder(),
+                backgroundColor: Color.fromRGBO(52, 184, 255, 1)
+              ),
+              child: Text(
+                'BEGIN',
+                style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24),
               ),
             ),
-            SizedBox(height: 10), // Spacing between buttons
-            // ElevatedButton(
-            //   onPressed: () {
-            //     double lat = double.tryParse(latController.text) ?? 51.517398;
-            //     double lon = double.tryParse(lonController.text) ?? -0.059893;
+             ElevatedButton(
+              onPressed: () async {
+                Position? position = await getUserLocation();
+                
+                double lat = position?.latitude ?? 51.517398;
+                double lon = position?.longitude ?? -0.059893;
 
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => WeatherMapWidget(
-            //           initialLatitude: lat,
-            //           initialLongitude: lon,
-            //         ),
-            //       ),
-            //     );
-            //   },
-            //   child: Text('SEE MAP'),
-            // ),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WeatherMapWidget(
+                      initialLatitude: lat,
+                      initialLongitude: lon,
+                    ),
+                  ),
+                );
+              },
+              child: Text('SEE MAP'),
+            ),
             // Padding(
             //   padding: EdgeInsets.symmetric(horizontal: 20),
             //   child: TextField(
@@ -102,7 +185,7 @@ class _HomePageState extends State<HomePage> {
             //     keyboardType: TextInputType.number,
             //   ),
             // ),
-            // SizedBox(height: 20),
+            SizedBox(height: 20),
             
           ],
         ),

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
+import 'package:flutter_svg/svg.dart';
 import '../models/utils/weather_utils.dart';
 
 class FindRainPage extends StatefulWidget {
@@ -77,9 +78,15 @@ class _FindRainPageState extends State<FindRainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("GO HERE", 
-              style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
-            ),
+            SvgPicture.asset( 
+                    'assets/images/GO_HERE.svg', 
+                    semanticsLabel: 'Go here', 
+                    height: 100, 
+                    width: 70, 
+                  ),
+            // Text("GO HERE", 
+            //   style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
+            // ),
             Text(
               "DEBUGMODE: $rainDirection",
               style: TextStyle(fontFamily: 'MegFont', fontSize: 24),
@@ -90,7 +97,7 @@ class _FindRainPageState extends State<FindRainPage> {
                 child: Container(
                   padding: const EdgeInsets.all(0.5),
                   // color:  const Color(0xFFE8581C),
-                  child: Image.asset('../assets/gifs/Arrow_cropped.gif', width: 50)
+                  child: Image.asset('assets/gifs/Arrow_cropped.gif', width: 50)
                   ),
                 ),
               // Transform.rotate(
@@ -105,7 +112,7 @@ class _FindRainPageState extends State<FindRainPage> {
               //       ),
               //     ),
               //   ),
-              Image.asset('../assets/gifs/full_cup.gif', width: 100)
+              Image.asset('assets/gifs/full_cup.gif', width: 100)
           ],
         ),
       ),
