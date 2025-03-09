@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/widgets/weather_map_widget.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'rain_status_page.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           Row(
             children: [
-              Text("Debug", style: TextStyle(fontSize: 16, color: Colors.black)),
+              Text("Debug", style: GoogleFonts.jost(fontSize: 16, color: Colors.black)),
               Switch(
                 value: isDebugMode,
                 onChanged: (value) {
@@ -146,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
                   locationStatus,
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  style: GoogleFonts.jost(fontSize: 14, color: Colors.grey),
                 ),
               ),
             ElevatedButton(
@@ -174,9 +175,11 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Text(
                 'BEGIN',
-                style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24),
+                style: GoogleFonts.jost(color: Colors.white, fontSize: 24),
               ),
             ),
+            if(isDebugMode)
+                SizedBox(height: 10),
             if (isDebugMode)
               ElevatedButton(
                 onPressed: () async {
@@ -199,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                child: Text('SEE MAP'),
+                child: Text('SEE MAP', style: GoogleFonts.jost(),),
               ),
               if(isDebugMode)
                 Padding(

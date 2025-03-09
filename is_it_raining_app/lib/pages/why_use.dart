@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
 import 'package:flutter_basic_first_app/pages/rain_status_page.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WhyUsePage extends StatefulWidget {
   final double latitude;
@@ -59,7 +60,7 @@ class _WhyUsePageState extends State<WhyUsePage> {
                     shape: RoundedRectangleBorder(),
                     backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
                   child: Text('CHECK AGAIN', 
-                  style: TextStyle(fontFamily: 'MegFont', color: Colors.white),
+                  style: GoogleFonts.jost(color: Colors.white),
                   ),
                 ),
           ],

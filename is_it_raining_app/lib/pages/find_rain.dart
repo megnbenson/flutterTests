@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/utils/weather_utils.dart';
 
 class FindRainPage extends StatefulWidget {
@@ -76,7 +77,7 @@ class _FindRainPageState extends State<FindRainPage> {
       actions: [
           Row(
             children: [
-              Text("Debug", style: TextStyle(fontSize: 16, color: Colors.black)),
+              Text("Debug", style: GoogleFonts.jost(fontSize: 16, color: Colors.black)),
               Switch(
                 value: isDebugMode,
                 onChanged: (value) {
@@ -106,7 +107,7 @@ class _FindRainPageState extends State<FindRainPage> {
             if(isDebugMode)
               Text(
                 "DEBUGMODE: $rainDirection",
-                style: TextStyle(fontFamily: 'MegFont', fontSize: 24),
+                style: GoogleFonts.jost(fontSize: 24),
               ),
             // const SizedBox(height: 10),
             Transform.rotate(

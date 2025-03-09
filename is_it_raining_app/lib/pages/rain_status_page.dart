@@ -6,6 +6,7 @@ import 'package:flutter_basic_first_app/pages/find_rain.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
 import 'package:flutter_basic_first_app/pages/why_use.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RainStatusPage extends StatefulWidget {
   final double latitude;
@@ -100,9 +101,11 @@ class _RainStatusPageState extends State<RainStatusPage> {
                     shape: RoundedRectangleBorder(),
                     backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
                   child: Text('STILL RAINING?', 
-                  style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24 ),
+                  style: GoogleFonts.jost(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w700 ),
                   ),
                 ),
+            if(rainStatus == "IT IS\n RAINING!")
+                SizedBox(height: 10),
             if(rainStatus == "IT IS\n RAINING!")
                 ElevatedButton(
                   onPressed: () {
@@ -117,8 +120,8 @@ class _RainStatusPageState extends State<RainStatusPage> {
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(),
                     backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-                  child: Text("NO IT ISN'T", 
-              style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24),
+                    child: Text("NO IT ISN'T...", 
+                    style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),
 
@@ -149,7 +152,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
                   shape: RoundedRectangleBorder(),
                   backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
                 child: Text('FIND RAIN?', 
-              style: TextStyle(fontFamily: 'MegFont', color: Colors.white),
+                style: GoogleFonts.jost(color: Colors.white),
                 ),
             ),
             if (rainStatus == "IT IS NOT\n RAINING!")
@@ -168,8 +171,8 @@ class _RainStatusPageState extends State<RainStatusPage> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(),
                       backgroundColor: Color.fromRGBO(52, 184, 255, 1)),
-                    child: Text("YES IT IS", 
-              style: TextStyle(fontFamily: 'MegFont', color: Colors.white),
+                      child: Text("YES IT IS", 
+                      style: GoogleFonts.jost(color: Colors.white),
                     ),
                   ),
           ],
