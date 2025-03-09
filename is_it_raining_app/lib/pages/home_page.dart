@@ -1,4 +1,5 @@
 // lib/pages/home_page.dart
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/widgets/weather_map_widget.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,8 +15,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // Default coordinates to use as fallback
-  final double defaultLat = 51.517398;
-  final double defaultLon = -0.059893;
+                  //MEG LON AND LAT SET HERE
+  final double defaultLat = 46.580002;
+  final double defaultLon = -0.340000;
   
   // Location state variables
   bool isLoading = false;
@@ -123,8 +125,10 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async {
                 Position? position = await getUserLocation();
                 
-                double lat = position?.latitude ?? defaultLat;
-                double lon = position?.longitude ?? defaultLon;
+                // double lat = position?.latitude ?? defaultLat;
+                // double lon = position?.longitude ?? defaultLon;
+                double lat =  defaultLat;
+                double lon =  defaultLon;
                 
                 Navigator.push(
                   context,
@@ -143,12 +147,16 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24),
               ),
             ),
+            if (kDebugMode)
              ElevatedButton(
               onPressed: () async {
                 Position? position = await getUserLocation();
                 
-                double lat = position?.latitude ?? 51.517398;
-                double lon = position?.longitude ?? -0.059893;
+                // double lat = position?.latitude ?? defaultLat;
+                // double lon = position?.longitude ?? defaultLon;
+
+                double lat =  defaultLat;
+                double lon =  defaultLon;
 
                 Navigator.push(
                   context,
@@ -186,7 +194,6 @@ class _HomePageState extends State<HomePage> {
             //   ),
             // ),
             SizedBox(height: 20),
-            
           ],
         ),
       ),
