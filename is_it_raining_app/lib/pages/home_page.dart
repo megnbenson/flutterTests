@@ -1,5 +1,4 @@
 // lib/pages/home_page.dart
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/widgets/weather_map_widget.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,13 +14,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // Default coordinates to use as fallback
-                  //MEG LON AND LAT SET HERE
+  //MEG LON AND LAT SET HERE
   final double defaultLat = 46.580002;
   final double defaultLon = -0.340000;
-  
+
+  final TextEditingController latController = TextEditingController();
+  final TextEditingController lonController = TextEditingController();
+
   // Location state variables
   bool isLoading = false;
   String locationStatus = '';
+  bool isDebugMode = false; // 🔹 Toggleable debug mode
+
+  @override
+  void initState() {
+    super.initState();
+    latController.text = defaultLat.toString();  // ✅ Initialize after instance is created
+    lonController.text = defaultLon.toString();
+  }
+
+  @override
+  void dispose() {
+    latController.dispose(); // ✅ Clean up controllers when widget is disposed
+    lonController.dispose();
+    super.dispose();
+  }
 
   Future<Position?> getUserLocation() async {
     setState(() {
@@ -92,15 +109,26 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
+        actions: [
+          Row(
+            children: [
+              Text("Debug", style: TextStyle(fontSize: 16, color: Colors.black)),
+              Switch(
+                value: isDebugMode,
+                onChanged: (value) {
+                  setState(() {
+                    isDebugMode = value;
+                  });
+                },
+              ),
+            ],
+          ),
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Text(
-            //   'IS IT \n RAINING?',
-            //   style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
-            // ),
             SvgPicture.asset( 
               'assets/images/IS_IT_RAINING.svg', 
               semanticsLabel: 'Is it raining', 
@@ -123,13 +151,15 @@ class _HomePageState extends State<HomePage> {
               ),
             ElevatedButton(
               onPressed: () async {
-                Position? position = await getUserLocation();
-                
-                // double lat = position?.latitude ?? defaultLat;
-                // double lon = position?.longitude ?? defaultLon;
-                double lat =  defaultLat;
-                double lon =  defaultLon;
-                
+                  double lat =  defaultLat;
+                  double lon =  defaultLon;
+
+                if(!isDebugMode){
+                  Position? position = await getUserLocation();
+                  lat = position?.latitude ?? defaultLat;
+                  lon = position?.longitude ?? defaultLon;
+                }
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -147,53 +177,56 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontFamily: 'MegFont', color: Colors.white, fontSize: 24),
               ),
             ),
-            if (kDebugMode)
-             ElevatedButton(
-              onPressed: () async {
-                Position? position = await getUserLocation();
-                
-                // double lat = position?.latitude ?? defaultLat;
-                // double lon = position?.longitude ?? defaultLon;
+            if (isDebugMode)
+              ElevatedButton(
+                onPressed: () async {
+                  double lat =  defaultLat;
+                  double lon =  defaultLon;
 
-                double lat =  defaultLat;
-                double lon =  defaultLon;
+                if(!isDebugMode){
+                  Position? position = await getUserLocation();
+                  lat = position?.latitude ?? defaultLat;
+                  lon = position?.longitude ?? defaultLon;
+                }
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WeatherMapWidget(
-                      initialLatitude: lat,
-                      initialLongitude: lon,
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WeatherMapWidget(
+                        initialLatitude: lat,
+                        initialLongitude: lon,
+                      ),
                     ),
+                  );
+                },
+                child: Text('SEE MAP'),
+              ),
+              if(isDebugMode)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: TextField(
+                    controller: latController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter Latitude',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
                   ),
-                );
-              },
-              child: Text('SEE MAP'),
-            ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 20),
-            //   child: TextField(
-            //     controller: latController,
-            //     decoration: InputDecoration(
-            //       labelText: 'Enter Latitude',
-            //       border: OutlineInputBorder(),
-            //     ),
-            //     keyboardType: TextInputType.number,
-            //   ),
-            // ),
-            // SizedBox(height: 10),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 20),
-            //   child: TextField(
-            //     controller: lonController,
-            //     decoration: InputDecoration(
-            //       labelText: 'Enter Longitude',
-            //       border: OutlineInputBorder(),
-            //     ),
-            //     keyboardType: TextInputType.number,
-            //   ),
-            // ),
-            SizedBox(height: 20),
+                ),
+              if(isDebugMode)
+                SizedBox(height: 10),
+              if(isDebugMode)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: TextField(
+                    controller: lonController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter Longitude',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
           ],
         ),
       ),

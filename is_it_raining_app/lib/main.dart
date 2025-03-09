@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'RainFont'
       ),
-      home: HomePage(),  // Changed from WeatherMapWidget to HomePage
+      home: HomePage(), 
     );
   }
 }

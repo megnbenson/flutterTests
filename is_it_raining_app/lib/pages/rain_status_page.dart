@@ -124,8 +124,8 @@ class _RainStatusPageState extends State<RainStatusPage> {
 
             if (rainStatus == "IT IS NOT\n RAINING!")
               SvgPicture.asset( 
-                    'assets/images/IT_IS_RAINING!.svg', 
-                    semanticsLabel: 'Is it raining!', 
+                    'assets/images/IT_IS_NOT_RAINING!.svg', 
+                    semanticsLabel: 'It is not raining!', 
                     height: 100, 
                     width: 70, 
                   ),

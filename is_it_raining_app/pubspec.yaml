@@ -88,9 +88,6 @@ flutter:
     - family: RainFont
       fonts:
         - asset: assets/fonts/RAINTEXT.ttf
-    - family: MegFont
-      fonts:
-        - asset: assets/fonts/Myfont.ttf
 
   #   - family: Trajan Pro
   #     fonts:

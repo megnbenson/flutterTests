@@ -17,6 +17,7 @@ class FindRainPage extends StatefulWidget {
 class _FindRainPageState extends State<FindRainPage> {
   String rainDirection = "Loading rain direction...";
   double arrowAngle = 0.0;
+  bool isDebugMode = false; // 🔹 Toggleable debug mode
 
   @override
   void initState() {
@@ -72,6 +73,21 @@ class _FindRainPageState extends State<FindRainPage> {
           );
         },
       ),
+      actions: [
+          Row(
+            children: [
+              Text("Debug", style: TextStyle(fontSize: 16, color: Colors.black)),
+              Switch(
+                value: isDebugMode,
+                onChanged: (value) {
+                  setState(() {
+                    isDebugMode = value;
+                  });
+                },
+              ),
+            ],
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: Center(
@@ -87,10 +103,11 @@ class _FindRainPageState extends State<FindRainPage> {
             // Text("GO HERE", 
             //   style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
             // ),
-            Text(
-              "DEBUGMODE: $rainDirection",
-              style: TextStyle(fontFamily: 'MegFont', fontSize: 24),
-            ),
+            if(isDebugMode)
+              Text(
+                "DEBUGMODE: $rainDirection",
+                style: TextStyle(fontFamily: 'MegFont', fontSize: 24),
+              ),
             // const SizedBox(height: 10),
             Transform.rotate(
                 angle: arrowAngle * (pi / 180.0),
