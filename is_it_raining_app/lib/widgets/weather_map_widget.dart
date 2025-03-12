@@ -114,7 +114,7 @@ class _WeatherMapWidgetState extends State<WeatherMapWidget> {
                     opacity: 0.7,
                     child: TileLayer(
                       urlTemplate: '${weatherData!.host}${getCurrentFrame()!.path}/256/{z}/{x}/{y}/2/1_1.png',
-                      maxZoom: 19,
+                      maxZoom: 17,
                       tileProvider: CancellableNetworkTileProvider(), // Add this here too
                     ),
                   ),

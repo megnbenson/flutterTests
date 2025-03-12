@@ -16,8 +16,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // Default coordinates to use as fallback
   //MEG LON AND LAT SET HERE
-  final double defaultLat = 46.580002;
-  final double defaultLon = -0.340000;
+  final double defaultLat = 47.025002; //47.025002, 4.839700
+  final double defaultLon = 4.839700;
 
   final TextEditingController latController = TextEditingController();
   final TextEditingController lonController = TextEditingController();

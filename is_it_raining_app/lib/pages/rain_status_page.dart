@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic_first_app/models/utils/weather_utils.dart';
 import 'package:flutter_basic_first_app/pages/find_rain.dart';
 import 'package:flutter_basic_first_app/pages/home_page.dart';
+import 'package:flutter_basic_first_app/pages/how_much.dart';
 import 'package:flutter_basic_first_app/pages/why_use.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,6 +32,9 @@ class _RainStatusPageState extends State<RainStatusPage> {
   Future<void> checkRainStatus() async {
       await Future.delayed(Duration(seconds: 2));
     // print("check rain status: lon : $lo, lan: $la");
+    var la = widget.latitude;
+    var lo = widget.longitude;
+    print("meg just checking lon and lat: $la , $lo");
     bool isRaining = await WeatherUtils.isItRaining(widget.latitude, widget.longitude);
     setState(() {
       rainStatus = isRaining ? "IT IS\n RAINING!" : "IT IS NOT\n RAINING!";
@@ -93,7 +97,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FindRainPage(longitude: widget.longitude, latitude: widget.latitude),
+                        builder: (context) => HowMuchPage(latitude: widget.latitude, longitude: widget.longitude),
                       ),
                     );
                   },
@@ -144,7 +148,8 @@ class _RainStatusPageState extends State<RainStatusPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FindRainPage(longitude: widget.longitude, latitude: widget.latitude),
+                      builder: (context) => HowMuchPage(longitude: widget.longitude, latitude: widget.latitude),
+                      // builder: (context) => FindRainPage(longitude: widget.longitude, latitude: widget.latitude),
                     ),
                   );
                 },
