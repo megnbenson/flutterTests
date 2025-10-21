@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:is_it_raining/models/weather_data.dart';
 import 'package:http/http.dart' as http;
@@ -6,10 +7,13 @@ import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 
 class WeatherUtils {
-  static Future<bool> isItRaining(double latitude, double longitude) async {
+    static Future<bool> isItRaining(double latitude, double longitude) async {
     try {
       final response = await http.get(
         Uri.parse('https://api.rainviewer.com/public/weather-maps.json'),
+        headers: {
+          'User-Agent': 'IsItRainingApp/1.0',
+        },
       );
 
       if (response.statusCode != 200) {
@@ -18,64 +22,71 @@ class WeatherUtils {
 
       WeatherData weatherData = WeatherData.fromJson(json.decode(response.body));
 
-      // Check if past data is available
       if (weatherData.past.isEmpty) {
-        return false; // No past data available
+        return false;
       }
 
-      // Use the first past frame instead of the last
       WeatherFrame firstFrame = weatherData.past.first;
 
-      // Retrieve the tile image based on the first past frame
-      int zoomLevel = 17;
-      int tileX = ((longitude + 180.0) / 360.0 * (1 << zoomLevel)).toInt();
+//max zoom is 10
+      int zoomLevel = 10;  
+      int tileX = ((longitude + 180.0) / 360.0 * (1 << zoomLevel)).floor();
       int tileY = ((1 -
-                  (log(tan(latitude * (3.141592653589793 / 180.0)) +
+                  (log(tan(latitude * (pi / 180.0)) +
                           1.0 /
-                              cos(latitude * (3.141592653589793 / 180.0))) /
-                      3.141592653589793)) /
+                              cos(latitude * (pi / 180.0))) /
+                      pi)) /
               2.0 *
-          (1 << zoomLevel))
-          .toInt();
+          (1 << zoomLevel)).floor();
 
       String tileUrl =
           '${weatherData.host}${firstFrame.path}/256/$zoomLevel/$tileX/$tileY/2/1_1.png';
+      
+      print('Requesting tile URL: $tileUrl'); // Debug print
 
-      final tileResponse = await http.get(Uri.parse(tileUrl));
+      final tileResponse = await http.get(
+        Uri.parse(tileUrl),
+        headers: {
+          'User-Agent': 'IsItRainingApp/1.0',
+        },
+      ).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          throw TimeoutException('Request timed out');
+        },
+      );
 
       if (tileResponse.statusCode != 200) {
-        throw Exception('Failed to load tile image');
+        print('Failed to load tile: ${tileResponse.statusCode}');
+        throw Exception('Failed to load tile image: ${tileResponse.statusCode}');
       }
 
       img.Image tileImage = img.decodeImage(Uint8List.fromList(tileResponse.bodyBytes))!;
 
-      // Define a threshold for identifying rain based on color (e.g., blue indicates rain)
+      // Define a threshold for identifying rain based on color
       int rainColorThreshold = 25;
 
-      // Check for the rain color in the image (blue being the primary indicator)
+      // Check for the rain color in the image
       for (int y = 0; y < tileImage.height; y += 10) {
         for (int x = 0; x < tileImage.width; x += 10) {
-          // Get pixel color components using the updated API
           img.Pixel pixel = tileImage.getPixel(x, y);
           num r = pixel.r;
           num g = pixel.g;
           num b = pixel.b;
 
-          print("r: $r, g: $g, b: $b");
-          // If the blue component is significantly higher than red and green, it's likely rain
           if (b > r + rainColorThreshold && b > g + rainColorThreshold) {
-            return true; // It is raining
+            return true;
           }
         }
       }
 
-      return false; // It is not raining
+      return false;
     } catch (e) {
       print('Error checking rain status: $e');
       return false;
     }
   }
-
+  
    // New method to calculate the direction of rain
   static Future<Map<String, String>> getRainDirection(double latitude, double longitude) async {
     try {

@@ -1,7 +1,6 @@
 // lib/widgets/weather_map_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -106,7 +105,6 @@ class _WeatherMapWidgetState extends State<WeatherMapWidget> {
               children: [
                 TileLayer(
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  tileProvider: CancellableNetworkTileProvider(), // Use cancellable provider
                   userAgentPackageName: 'com.example.app',
                 ),
                 if (weatherData != null && getCurrentFrame() != null)
@@ -115,7 +113,6 @@ class _WeatherMapWidgetState extends State<WeatherMapWidget> {
                     child: TileLayer(
                       urlTemplate: '${weatherData!.host}${getCurrentFrame()!.path}/256/{z}/{x}/{y}/2/1_1.png',
                       maxZoom: 17,
-                      tileProvider: CancellableNetworkTileProvider(), // Add this here too
                     ),
                   ),
               ],
