@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:flutter_basic_first_app/models/weather_data.dart';
+import 'package:is_it_raining/models/weather_data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:typed_data';

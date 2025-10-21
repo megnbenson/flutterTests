@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_first_app/pages/home_page.dart';
+import 'package:is_it_raining/pages/home_page.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/utils/weather_utils.dart';

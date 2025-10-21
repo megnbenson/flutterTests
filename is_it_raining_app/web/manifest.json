@@ -1,6 +1,6 @@
 {
-    "name": "flutter_basic_first_app",
-    "short_name": "flutter_basic_first_app",
+    "name": "is_it_raining",
+    "short_name": "is_it_raining",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

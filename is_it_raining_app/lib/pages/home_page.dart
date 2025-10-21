@@ -1,6 +1,6 @@
 // lib/pages/home_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_first_app/widgets/weather_map_widget.dart';
+import 'package:is_it_raining/widgets/weather_map_widget.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'rain_status_page.dart';

@@ -1,6 +1,6 @@
-# flutter_basic_first_app
+# is_it_raining 
 
-A new Flutter project.
+A new Flutter app for your rain needs
 
 ## Getting Started
 

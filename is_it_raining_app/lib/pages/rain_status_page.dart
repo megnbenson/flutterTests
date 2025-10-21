@@ -1,11 +1,11 @@
 // lib/pages/rain_status_page.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_first_app/models/utils/weather_utils.dart';
-import 'package:flutter_basic_first_app/pages/find_rain.dart';
-import 'package:flutter_basic_first_app/pages/home_page.dart';
-import 'package:flutter_basic_first_app/pages/how_much.dart';
-import 'package:flutter_basic_first_app/pages/why_use.dart';
+import 'package:is_it_raining/models/utils/weather_utils.dart';
+import 'package:is_it_raining/pages/find_rain.dart';
+import 'package:is_it_raining/pages/home_page.dart';
+import 'package:is_it_raining/pages/how_much.dart';
+import 'package:is_it_raining/pages/why_use.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 

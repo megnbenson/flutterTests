@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_first_app/pages/home_page.dart';
-import 'package:flutter_basic_first_app/pages/rain_status_page.dart';
-import 'package:flutter_basic_first_app/pages/why_use.dart';
+import 'package:is_it_raining/pages/home_page.dart';
+import 'package:is_it_raining/pages/rain_status_page.dart';
+import 'package:is_it_raining/pages/why_use.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -51,6 +51,8 @@ class _HowMuchPageState extends State<HowMuchPage> {
                   Image.asset('assets/gifs/its_sunny.gif', width: 250),
                 if(_currentDiscreteSliderValue==50)
                   Image.asset('assets/gifs/its_cloudy.gif', width:250), 
+                if(_currentDiscreteSliderValue==50)
+                  SizedBox(height: 20),
                 if(_currentDiscreteSliderValue==100)
                   Image.asset('assets/gifs/Its_Raining.gif', width:250),             
                 Container(
