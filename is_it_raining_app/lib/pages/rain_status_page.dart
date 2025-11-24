@@ -148,8 +148,8 @@ class _RainStatusPageState extends State<RainStatusPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HowMuchPage(longitude: widget.longitude, latitude: widget.latitude),
-                      // builder: (context) => FindRainPage(longitude: widget.longitude, latitude: widget.latitude),
+                      // builder: (context) => HowMuchPage(longitude: widget.longitude, latitude: widget.latitude),
+                      builder: (context) => FindRainPage(longitude: widget.longitude, latitude: widget.latitude),
                     ),
                   );
                 },
