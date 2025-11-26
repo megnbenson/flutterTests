@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:is_it_raining/pages/home_page.dart';
-import 'package:is_it_raining/pages/rain_status_page.dart';
 import 'package:is_it_raining/pages/why_use.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HowMuchPage extends StatefulWidget {
@@ -26,12 +24,9 @@ class _HowMuchPageState extends State<HowMuchPage> {
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(254, 167, 42, 1),
         leading: IconButton(
-        icon: Icon(Icons.arrow_back),  // You can use Icons.home if you prefer
+        icon: Icon(Icons.arrow_back),
         onPressed: () {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HomePage()),
-            (route) => false,
-          );
+          Navigator.pop(context);
         },
       ),
       ),

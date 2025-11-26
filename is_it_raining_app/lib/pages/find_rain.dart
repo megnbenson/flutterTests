@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:is_it_raining/pages/home_page.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/utils/weather_utils.dart';
 
@@ -27,9 +26,9 @@ class _FindRainPageState extends State<FindRainPage> {
   }
 
   Future<void> _getRainDirection() async {
-  var lo = widget.longitude;
-  var la = widget.latitude;
-  print("getRainDirection: lon : $lo, lat: $la");
+  // var lo = widget.longitude;
+  // var la = widget.latitude;
+  // print("getRainDirection: lon : $lo, lat: $la");
 
   Map<String, String> result = await WeatherUtils.getRainDirection(widget.latitude, widget.longitude);
 
@@ -66,12 +65,9 @@ class _FindRainPageState extends State<FindRainPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-        icon: Icon(Icons.arrow_back),  // You can use Icons.arrow_back if you prefer
+        icon: Icon(Icons.arrow_back),
         onPressed: () {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HomePage()),
-            (route) => false,
-          );
+          Navigator.pop(context); // This will pop the current route off the stack
         },
       ),
       actions: [

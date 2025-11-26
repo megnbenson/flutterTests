@@ -42,7 +42,7 @@ class WeatherUtils {
       String tileUrl =
           '${weatherData.host}${firstFrame.path}/256/$zoomLevel/$tileX/$tileY/2/1_1.png';
       
-      print('Requesting tile URL: $tileUrl'); // Debug print
+      // print('Requesting tile URL: $tileUrl'); // Debug print
 
       final tileResponse = await http.get(
         Uri.parse(tileUrl),
@@ -57,7 +57,7 @@ class WeatherUtils {
       );
 
       if (tileResponse.statusCode != 200) {
-        print('Failed to load tile: ${tileResponse.statusCode}');
+        // print('Failed to load tile: ${tileResponse.statusCode}');
         throw Exception('Failed to load tile image: ${tileResponse.statusCode}');
       }
 
@@ -82,7 +82,7 @@ class WeatherUtils {
 
       return false;
     } catch (e) {
-      print('Error checking rain status: $e');
+      // print('Error checking rain status: $e');
       return false;
     }
   }
@@ -135,7 +135,7 @@ class WeatherUtils {
 
       return {"direction": direction, "intensity": intensity};
     } catch (e) {
-      print('Error determining rain direction: $e');
+      // print('Error determining rain direction: $e');
       return {"direction": "Error", "intensity": "Unknown"};
     }
   }

@@ -51,7 +51,7 @@ class _WeatherMapWidgetState extends State<WeatherMapWidget> {
         throw Exception('Failed to load weather data');
       }
     } catch (e) {
-      print('Error fetching weather data: $e');
+      // print('Error fetching weather data: $e');
     }
   }
 
