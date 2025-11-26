@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    latController.text = defaultLat.toString();  // ✅ Initialize after instance is created
+    latController.text =
+        defaultLat.toString(); // ✅ Initialize after instance is created
     lonController.text = defaultLon.toString();
   }
 
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       isLoading = true;
       locationStatus = 'Getting location...';
     });
-    
+
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> {
         });
         return null;
       }
-      
+
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
           return null;
         }
       }
-      
+
       if (permission == LocationPermission.deniedForever) {
         setState(() {
           locationStatus = 'Location permissions permanently denied';
@@ -76,16 +77,16 @@ class _HomePageState extends State<HomePage> {
         });
         return null;
       }
-      
+
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high
+        desiredAccuracy: LocationAccuracy.high,
       );
-      
+
       setState(() {
         locationStatus = 'Location obtained';
         isLoading = false;
       });
-      
+
       return position;
     } catch (e) {
       setState(() {
@@ -105,7 +106,10 @@ class _HomePageState extends State<HomePage> {
         actions: [
           Row(
             children: [
-              Text("Debug", style: GoogleFonts.jost(fontSize: 16, color: Colors.black)),
+              Text(
+                "Debug",
+                style: GoogleFonts.jost(fontSize: 16, color: Colors.black),
+              ),
               Switch(
                 value: isDebugMode,
                 onChanged: (value) {
@@ -122,17 +126,21 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset( 
-              'assets/images/IS_IT_RAINING.svg', 
-              semanticsLabel: 'Is it raining', 
-              height: 100, 
-              width: 70, 
+            SvgPicture.asset(
+              'assets/images/IS_IT_RAINING.svg',
+              semanticsLabel: 'Is it raining',
+              height: 100,
+              width: 70,
             ),
-            Image.asset('assets/gifs/NB_Home_Screen_Cloud_Animation.gif', width: 250),
-            if (isLoading) 
+            Image.asset(
+              'assets/gifs/NB_Home_Screen_Cloud_Animation.gif',
+              width: 250,
+            ),
+            if (isLoading)
               CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Color.fromRGBO(52, 184, 255,
-                 1)),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Color.fromRGBO(52, 184, 255, 1),
+                ),
               ),
             if (locationStatus.isNotEmpty && !isLoading)
               Padding(
@@ -144,10 +152,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ElevatedButton(
               onPressed: () async {
-                  double lat =  defaultLat;
-                  double lon =  defaultLon;
+                double lat = defaultLat;
+                double lon = defaultLon;
 
-                if(!isDebugMode){
+                if (!isDebugMode) {
                   Position? position = await getUserLocation();
                   lat = position?.latitude ?? defaultLat;
                   lon = position?.longitude ?? defaultLon;
@@ -156,72 +164,76 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        RainStatusPage(latitude: lat, longitude: lon),
+                    builder:
+                        (context) =>
+                            RainStatusPage(latitude: lat, longitude: lon),
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(),
-                backgroundColor: Color.fromRGBO(52, 184, 255, 1)
+                backgroundColor: Color.fromRGBO(52, 184, 255, 1),
               ),
               child: Text(
                 'BEGIN',
-                style: GoogleFonts.jost(color: Colors.white, fontSize: 24),
+                style: GoogleFonts.jost(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
-            if(isDebugMode)
-                SizedBox(height: 10),
+            if (isDebugMode) SizedBox(height: 10),
             if (isDebugMode)
               ElevatedButton(
                 onPressed: () async {
-                  double lat =  defaultLat;
-                  double lon =  defaultLon;
+                  double lat = defaultLat;
+                  double lon = defaultLon;
 
-                if(!isDebugMode){
-                  Position? position = await getUserLocation();
-                  lat = position?.latitude ?? defaultLat;
-                  lon = position?.longitude ?? defaultLon;
-                }
+                  if (!isDebugMode) {
+                    Position? position = await getUserLocation();
+                    lat = position?.latitude ?? defaultLat;
+                    lon = position?.longitude ?? defaultLon;
+                  }
 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WeatherMapWidget(
-                        initialLatitude: lat,
-                        initialLongitude: lon,
-                      ),
+                      builder:
+                          (context) => WeatherMapWidget(
+                            initialLatitude: lat,
+                            initialLongitude: lon,
+                          ),
                     ),
                   );
                 },
-                child: Text('SEE MAP', style: GoogleFonts.jost(),),
+                child: Text('SEE MAP', style: GoogleFonts.jost()),
               ),
-              if(isDebugMode)
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: TextField(
-                    controller: latController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Latitude',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
+            if (isDebugMode)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: latController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Latitude',
+                    border: OutlineInputBorder(),
                   ),
+                  keyboardType: TextInputType.number,
                 ),
-              if(isDebugMode)
-                SizedBox(height: 10),
-              if(isDebugMode)
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: TextField(
-                    controller: lonController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Longitude',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
+              ),
+            if (isDebugMode) SizedBox(height: 10),
+            if (isDebugMode)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: lonController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Longitude',
+                    border: OutlineInputBorder(),
                   ),
+                  keyboardType: TextInputType.number,
                 ),
+              ),
           ],
         ),
       ),
