@@ -24,7 +24,7 @@ class _WhyUsePageState extends State<WhyUsePage> {
       appBar: AppBar(
         backgroundColor: Colors.amberAccent,
         leading: IconButton(
-        icon: Icon(Icons.home),  // You can use Icons.arrow_back if you prefer
+        icon: Icon(Icons.arrow_back),  // You can use Icons.arrow_back if you prefer
         onPressed: () {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => HomePage()),

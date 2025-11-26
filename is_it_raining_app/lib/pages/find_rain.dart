@@ -66,7 +66,7 @@ class _FindRainPageState extends State<FindRainPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-        icon: Icon(Icons.home),  // You can use Icons.arrow_back if you prefer
+        icon: Icon(Icons.arrow_back),  // You can use Icons.arrow_back if you prefer
         onPressed: () {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => HomePage()),
