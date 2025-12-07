@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:is_it_raining/pages/home_page.dart';
 import 'package:is_it_raining/pages/rain_status_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,10 +55,7 @@ class _WhyUsePageState extends State<WhyUsePage> {
                   context,
                   MaterialPageRoute(
                     builder:
-                        (context) => RainStatusPage(
-                          longitude: widget.longitude,
-                          latitude: widget.latitude,
-                        ),
+                        (context) => HomePage(),
                   ),
                 );
               },

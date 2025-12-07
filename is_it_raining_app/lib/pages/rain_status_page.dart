@@ -140,7 +140,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
                     context,
                     MaterialPageRoute(
                       builder:
-                          (context) => WhyUsePage(
+                          (context) => HowMuchPage(
                             longitude: widget.longitude,
                             latitude: widget.latitude,
                           ),
@@ -213,7 +213,7 @@ class _RainStatusPageState extends State<RainStatusPage> {
                     context,
                     MaterialPageRoute(
                       builder:
-                          (context) => WhyUsePage(
+                          (context) => HowMuchPage(
                             longitude: widget.longitude,
                             latitude: widget.latitude,
                           ),
