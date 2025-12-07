@@ -14,7 +14,7 @@ class WeatherMapWidget extends StatefulWidget {
   const WeatherMapWidget({super.key, required this.initialLatitude, required this.initialLongitude});
 
   @override
-  _WeatherMapWidgetState createState() => _WeatherMapWidgetState();
+  State<WeatherMapWidget> createState() => _WeatherMapWidgetState();
 }
 
 class _WeatherMapWidgetState extends State<WeatherMapWidget> {

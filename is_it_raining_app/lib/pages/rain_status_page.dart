@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:is_it_raining/models/utils/weather_utils.dart';
 import 'package:is_it_raining/pages/find_rain.dart';
 import 'package:is_it_raining/pages/how_much.dart';
-import 'package:is_it_raining/pages/why_use.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,7 +18,7 @@ class RainStatusPage extends StatefulWidget {
   });
 
   @override
-  _RainStatusPageState createState() => _RainStatusPageState();
+  State<RainStatusPage> createState() => _RainStatusPageState();
 }
 
 class _RainStatusPageState extends State<RainStatusPage> {

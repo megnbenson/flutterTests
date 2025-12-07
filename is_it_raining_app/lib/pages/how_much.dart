@@ -14,7 +14,7 @@ class HowMuchPage extends StatefulWidget {
   });
 
   @override
-  _HowMuchPageState createState() => _HowMuchPageState();
+  State<HowMuchPage> createState() => _HowMuchPageState();
 }
 
 // Custom track shape that paints a linear gradient across the slider track.
@@ -118,7 +118,7 @@ class _HowMuchPageState extends State<HowMuchPage> {
                   ),
                   inactiveTrackColor: Colors.grey.shade300,
                   thumbColor: Color.fromRGBO(52, 184, 255, 1),
-                  overlayColor: Color.fromRGBO(52, 184, 255, 1).withOpacity(0.12),
+                  overlayColor: Color.fromRGBO(52, 184, 255, 0.12),
                   trackHeight: 8.0,
                 ),
                 child: SizedBox(

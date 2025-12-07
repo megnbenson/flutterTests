@@ -11,7 +11,7 @@ class FindRainPage extends StatefulWidget {
   const FindRainPage({super.key, required this.latitude, required this.longitude});
 
   @override
-  _FindRainPageState createState() => _FindRainPageState();
+  State<FindRainPage> createState() => _FindRainPageState();
 }
 
 class _FindRainPageState extends State<FindRainPage> {

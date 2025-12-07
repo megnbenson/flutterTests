@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -62,6 +62,7 @@ class _HomePageState extends State<HomePage> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
+          if (!mounted) return null;
           setState(() {
             locationStatus = 'Location permission denied';
             isLoading = false;
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage> {
       }
 
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
       );
 
       setState(() {
@@ -89,6 +90,7 @@ class _HomePageState extends State<HomePage> {
 
       return position;
     } catch (e) {
+      if (!mounted) return null;
       setState(() {
         locationStatus = 'Error: $e';
         isLoading = false;
@@ -155,14 +157,16 @@ class _HomePageState extends State<HomePage> {
                 double lat = defaultLat;
                 double lon = defaultLon;
 
+                final navigator = Navigator.of(context);
                 if (!isDebugMode) {
                   Position? position = await getUserLocation();
+                  if (!mounted) return; // avoid using context after async gap
                   lat = position?.latitude ?? defaultLat;
                   lon = position?.longitude ?? defaultLon;
                 }
 
-                Navigator.push(
-                  context,
+                if (!mounted) return;
+                navigator.push(
                   MaterialPageRoute(
                     builder:
                         (context) =>
@@ -190,14 +194,16 @@ class _HomePageState extends State<HomePage> {
                   double lat = defaultLat;
                   double lon = defaultLon;
 
+                  final navigator = Navigator.of(context);
                   if (!isDebugMode) {
                     Position? position = await getUserLocation();
+                    if (!mounted) return; // guard after async
                     lat = position?.latitude ?? defaultLat;
                     lon = position?.longitude ?? defaultLon;
                   }
 
-                  Navigator.push(
-                    context,
+                  if (!mounted) return;
+                  navigator.push(
                     MaterialPageRoute(
                       builder:
                           (context) => WeatherMapWidget(
