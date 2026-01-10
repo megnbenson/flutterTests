@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
+import 'package:salt_game/components/circle.dart';
 import 'cup.dart';
 import 'salt.dart';
 
@@ -26,6 +27,7 @@ class SaltGame extends Forge2DGame {
 
     await addCup(cupSprite);
     unawaited(addSalt(saltSprite));
+    await add(Circle());
 
     final saltPos = Vector2(
       camera.visibleWorldRect.center.dx,
@@ -46,6 +48,10 @@ class SaltGame extends Forge2DGame {
     ]);
   }
   final _random = Random();                                
+//MEG - todo:
+// 1. add drawing and have that stop the salt from falling
+// 2. add scoring when salt lands in cup      
+// 3. add multiple levels with different cup positions
 
   Future<void> addSalt(Sprite saltSprite) async {
       for (var x = 0; x < 200; x ++){

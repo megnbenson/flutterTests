@@ -5,7 +5,7 @@ import 'body_component_with_user_data.dart';
 const brickScale = 0.5;
 
 
-class Salt extends BodyComponentWithUserData {
+class Salt extends BodyComponentWithUserData with ContactCallbacks {
   final Sprite sprite;
 
   Salt(Vector2 position, this.sprite) :
@@ -40,5 +40,11 @@ class Salt extends BodyComponentWithUserData {
     );
     add(_spriteComponent);
     return super.onLoad();
+  }
+
+  @override
+  void beginContact(Object other, Contact contact) {
+    // No-op: Cup handles removal and counting
+    super.beginContact(other, contact);
   }
 }
