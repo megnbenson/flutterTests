@@ -1,17 +1,19 @@
 // import 'dart:ui';
 
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/painting.dart';
-import 'body_component_with_user_data.dart'; 
+import 'body_component_with_user_data.dart';
 import 'salt.dart';
 
-const cupSize = 3.0;
-
+const cupSize = 8.0;
 
 class Cup extends BodyComponentWithUserData with ContactCallbacks {
-  Cup(Vector2 position, Sprite sprite)
+  Cup(Vector2 position, Sprite sprite, {required void Function() onSaltInCup})
       : _sprite = sprite,
+        _onSaltInCup = onSaltInCup,
         super(
           renderBody: false,
           bodyDef: BodyDef()
@@ -26,32 +28,19 @@ class Cup extends BodyComponentWithUserData with ContactCallbacks {
         );
 
   final Sprite _sprite;
-  int saltCount = 0;
-  late TextComponent _countText;
+  final void Function() _onSaltInCup;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    add(SpriteComponent(
-      anchor: Anchor.center,
-      sprite: _sprite,
-      size: Vector2.all(cupSize),
-      position: Vector2(10, 0),
-    ));
-    _countText = TextComponent(
-      text: saltCount.toString(),
-      anchor: Anchor.topCenter,
-      position: Vector2(10, -cupSize / 2 - 10),
-      priority: 1,
-      textRenderer: TextPaint(      
-        style: TextStyle(
-          color: Color.fromARGB(255, 0, 0, 0),
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
+    add(
+      SpriteComponent(
+        anchor: Anchor.center,
+        sprite: _sprite,
+        size: Vector2.all(cupSize),
+        position: Vector2(0, 0),
       ),
     );
-    add(_countText);
   }
 
   @override
@@ -60,9 +49,8 @@ class Cup extends BodyComponentWithUserData with ContactCallbacks {
       // Only count if salt is above the cup (touching the top)
       final saltY = other.body.position.y;
       final cupY = body.position.y - (cupSize / 2);
-      if (saltY < cupY + 0.2) { // 0.2 is a small threshold
-        saltCount++;
-        _countText.text = saltCount.toString();
+      if (saltY < cupY + 0.1) {
+        _onSaltInCup();
         other.removeFromParent();
       }
     }

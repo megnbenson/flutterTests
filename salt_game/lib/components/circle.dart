@@ -96,7 +96,7 @@ class PhysicsStaticCircle extends BodyComponent {
     final shape = CircleShape()..radius = radius;
     final fixtureDef = FixtureDef(shape)
       ..friction = 0.5
-      ..restitution = 0.1;
+      ..restitution = 0.0;
     body.createFixture(fixtureDef);
     return body;
   }
