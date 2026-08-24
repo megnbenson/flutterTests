@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'rain_status_page.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:is_it_raining/pages/found_a_bug.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -80,7 +81,9 @@ class _HomePageState extends State<HomePage> {
       }
 
       Position position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
 
       setState(() {
@@ -174,8 +177,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(),
+               style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Color.fromRGBO(52, 184, 255, 1)),
+                  borderRadius: BorderRadius.circular(6),
+                ),
                 backgroundColor: Color.fromRGBO(52, 184, 255, 1),
               ),
               child: Text(
@@ -187,6 +193,26 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () async {
+                final navigator = Navigator.of(context);
+
+                navigator.push(
+                  MaterialPageRoute(builder: (context) => FoundABugPage()),
+                );
+              },
+              child: Text(
+                'Found a bug?',
+                style: GoogleFonts.jost(
+                  color: const Color(0xFFE2C03F),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+
             if (isDebugMode) SizedBox(height: 10),
             if (isDebugMode)
               ElevatedButton(
