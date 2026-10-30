@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>IS IT RAINING</string>
+	<string>RAIN??</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location is used to find nearby rain and orient the compass.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
