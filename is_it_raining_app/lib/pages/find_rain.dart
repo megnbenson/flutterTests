@@ -1,6 +1,7 @@
-import 'dart:math';
+import 'dart:async';
+import 'dart:math' show pi;
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/utils/weather_utils.dart';
 
@@ -8,56 +9,71 @@ class FindRainPage extends StatefulWidget {
   final double latitude;
   final double longitude;
 
-  const FindRainPage({super.key, required this.latitude, required this.longitude});
+  const FindRainPage({
+    super.key,
+    required this.latitude,
+    required this.longitude,
+  });
 
   @override
   State<FindRainPage> createState() => _FindRainPageState();
 }
 
 class _FindRainPageState extends State<FindRainPage> {
-  String rainDirection = "Loading rain direction...";
-  double arrowAngle = 0.0;
-  bool isDebugMode = false; // 🔹 Toggleable debug mode
+  String rainStatus = "Searching nearby radar...";
+  double? rainBearingDegrees;
+  double? rainDistanceKilometers;
+  double? compassHeadingDegrees;
+  bool isDebugMode = false;
+  StreamSubscription<CompassEvent>? _compassSubscription;
+  Timer? _radarRefreshTimer;
 
   @override
   void initState() {
     super.initState();
-    _getRainDirection();
+    _compassSubscription = FlutterCompass.events?.listen((event) {
+      if (!mounted || event.heading == null) return;
+      setState(() => compassHeadingDegrees = event.heading);
+    });
+    _updateNearestRain();
+    _radarRefreshTimer = Timer.periodic(
+      const Duration(minutes: 5),
+      (_) => _updateNearestRain(),
+    );
   }
 
-  Future<void> _getRainDirection() async {
-  // var lo = widget.longitude;
-  // var la = widget.latitude;
-  // print("getRainDirection: lon : $lo, lat: $la");
-
-  Map<String, String> result = await WeatherUtils.getRainDirection(widget.latitude, widget.longitude);
-
-  String direction = result["direction"]!;
-  String intensity = result["intensity"]!;
-
-  double angle = 0.0;
-  switch (direction) {
-    case "Rain moving North":
-      angle = 180.0; // Point South
-      break;
-    case "Rain moving South":
-      angle = 0.0; // Point North
-      break;
-    case "Rain moving East":
-      angle = 270.0; // Point West
-      break;
-    case "Rain moving West":
-      angle = 90.0; // Point East
-      break;
-    default:
-      angle = Random().nextDouble() * 90;
+  @override
+  void dispose() {
+    _compassSubscription?.cancel();
+    _radarRefreshTimer?.cancel();
+    super.dispose();
   }
 
-  setState(() {
-    rainDirection = "$direction ($intensity)";
-    arrowAngle = angle;
-  });
-}
+  Future<void> _updateNearestRain() async {
+    try {
+      final target = await WeatherUtils.getNearestRain(
+        widget.latitude,
+        widget.longitude,
+      );
+      if (!mounted) return;
+
+      setState(() {
+        rainBearingDegrees = target?.bearingDegrees;
+        rainDistanceKilometers = target?.distanceKilometers;
+        rainStatus =
+            target == null
+                ? "No rain found in nearby radar tiles"
+                : "Nearest rain: ${target.distanceKilometers.toStringAsFixed(1)} km away";
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        rainBearingDegrees = null;
+        rainDistanceKilometers = null;
+        rainStatus = "Unable to load radar data";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,15 +81,20 @@ class _FindRainPageState extends State<FindRainPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context); // This will pop the current route off the stack
-        },
-      ),
-      actions: [
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(
+              context,
+            ); // This will pop the current route off the stack
+          },
+        ),
+        actions: [
           Row(
             children: [
-              Text("Debug", style: GoogleFonts.jost(fontSize: 16, color: Colors.black)),
+              Text(
+                "Debug",
+                style: GoogleFonts.jost(fontSize: 16, color: Colors.black),
+              ),
               Switch(
                 value: isDebugMode,
                 onChanged: (value) {
@@ -91,89 +112,42 @@ class _FindRainPageState extends State<FindRainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset( 
-                    'assets/images/GO_HERE.svg', 
-                    semanticsLabel: 'Go here', 
-                    height: 100, 
-                    width: 70, 
-                  ),
-            // Text("GO HERE", 
+            Text(
+              "GO HERE",
+              style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
+            ),
+            // Text("GO HERE",
             //   style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
             // ),
-            if(isDebugMode)
+            if (isDebugMode)
               Text(
-                "DEBUGMODE: $rainDirection",
+                "Bearing: ${rainBearingDegrees?.toStringAsFixed(1) ?? 'n/a'}°  "
+                "Heading: ${compassHeadingDegrees?.toStringAsFixed(1) ?? 'n/a'}°",
                 style: GoogleFonts.jost(fontSize: 24),
               ),
-            // const SizedBox(height: 10),
-            Transform.rotate(
-                angle: arrowAngle * (pi / 180.0),
-                child: Container(
-                  padding: const EdgeInsets.all(0.5),
-                  // color:  const Color(0xFFE8581C),
-                  child: Image.asset('assets/gifs/Arrow_cropped.gif', width: 50)
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Text(rainStatus, style: GoogleFonts.jost(fontSize: 18)),
+            ),
+            if (rainBearingDegrees != null)
+              Transform.rotate(
+                angle:
+                    (rainBearingDegrees! - (compassHeadingDegrees ?? 0)) *
+                    (pi / 180),
+                child: Image.asset('assets/gifs/Arrow_cropped.gif', width: 50),
+              ),
+            if (rainBearingDegrees != null && compassHeadingDegrees == null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  "Compass unavailable; arrow is north-aligned",
+                  style: GoogleFonts.jost(fontSize: 14),
                 ),
-              // Transform.rotate(
-              //   angle: arrowAngle * (pi / 180.0),
-              //   child: Container(
-              //     padding: const EdgeInsets.all(0.2),
-              //     // color:  const Color(0xFFE8581C),
-              //     child:  
-              //       CustomPaint(
-              //         size: const Size(120, 160),
-              //         painter: ArrowPainter(intensity: rainDirection.split('(').last.replaceAll(')', '').trim()),
-              //       ),
-              //     ),
-              //   ),
-              Image.asset('assets/gifs/full_cup.gif', width: 100)
+              ),
+            Image.asset('assets/gifs/full_cup.gif', width: 100),
           ],
         ),
       ),
     );
   }
-}
-
-class ArrowPainter extends CustomPainter {
-  final String intensity;
-
-  ArrowPainter({required this.intensity});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Color arrowColor;
-    switch (intensity) {
-      case "Heavy Rain":
-        arrowColor = Colors.red;
-        break;
-      case "Moderate Rain":
-        arrowColor = Colors.orange;
-        break;
-      case "Light Rain":
-        arrowColor = Colors.blue;
-        break;
-      default:
-        arrowColor = Colors.black;
-    }
-
-    final paint = Paint()
-      ..color = arrowColor
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 4.0;
-
-    final path = Path();
-    path.moveTo(size.width * 0.35, size.height * 0.8);
-    path.lineTo(size.width * 0.65, size.height * 0.8);
-    path.lineTo(size.width * 0.65, size.height * 0.4);
-    path.lineTo(size.width * 0.8, size.height * 0.4);
-    path.lineTo(size.width * 0.5, size.height * 0.2);
-    path.lineTo(size.width * 0.2, size.height * 0.4);
-    path.lineTo(size.width * 0.35, size.height * 0.4);
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

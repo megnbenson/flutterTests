@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:is_it_raining/pages/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
