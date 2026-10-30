@@ -34,7 +34,10 @@ class _FoundABugPageState extends State<FoundABugPage> {
         '$_googleFormUrl${Uri.encodeQueryComponent(message)}',
       );
 
-      if (!await launchUrl(submittedUrl, mode: LaunchMode.externalApplication)) {
+      if (!await launchUrl(
+        submittedUrl,
+        mode: LaunchMode.externalApplication,
+      )) {
         throw Exception('Could not open Google Form');
       }
 
@@ -85,9 +88,9 @@ class _FoundABugPageState extends State<FoundABugPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-                "FOUND A \nBUG?",
-                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
-              ),
+              "FOUND A \nBUG?",
+              style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
+            ),
             const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -124,10 +127,10 @@ class _FoundABugPageState extends State<FoundABugPage> {
                       )
                       : Text(
                         'SUBMIT',
-                        style: GoogleFonts.jost(
-                          color: Colors.white,
+                        style: TextStyle(
+                          fontFamily: 'RainFont',
                           fontSize: 16,
-                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
                         ),
                       ),
             ),

@@ -65,10 +65,10 @@ class _WhyUsePageState extends State<WhyUsePage> {
               ),
               child: Text(
                 'CHECK AGAIN',
-                style: GoogleFonts.jost(
-                  color: Colors.white,
+                style: TextStyle(
+                  fontFamily: 'RainFont',
                   fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
                 ),
               ),
             ),

@@ -132,9 +132,9 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-                "IS IT \nRAINING?",
-                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
-              ),
+              "IS IT \nRAINING?",
+              style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
+            ),
             Image.asset(
               'assets/gifs/NB_Home_Screen_Cloud_Animation.gif',
               width: 250,
@@ -175,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-               style: ElevatedButton.styleFrom(
+              style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: Color.fromRGBO(52, 184, 255, 1)),
                   borderRadius: BorderRadius.circular(6),
@@ -183,11 +183,11 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Color.fromRGBO(52, 184, 255, 1),
               ),
               child: Text(
-                'BEGIN',
-                style: GoogleFonts.jost(
+                "BEGIN",
+                style: TextStyle(
+                  fontFamily: 'RainFont',
+                  fontSize: 20,
                   color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
@@ -202,11 +202,10 @@ class _HomePageState extends State<HomePage> {
               },
               child: Text(
                 'Found a bug?',
-                style: GoogleFonts.jost(
-                  color: const Color(0xFFE2C03F),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  decoration: TextDecoration.underline,
+                style: TextStyle(
+                  fontFamily: 'RainFont',
+                  fontSize: 20,
+                  color: Colors.blue,
                 ),
               ),
             ),

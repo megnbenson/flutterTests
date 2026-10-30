@@ -187,7 +187,11 @@ class _RainStatusPageState extends State<RainStatusPage> {
                 ),
                 child: Text(
                   'FIND RAIN?',
-                  style: GoogleFonts.jost(color: Colors.white),
+                  style: TextStyle(
+                    fontFamily: 'RainFont',
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             if (rainStatus == "IT IS NOT\n RAINING!") SizedBox(height: 20),
@@ -215,7 +219,11 @@ class _RainStatusPageState extends State<RainStatusPage> {
                 ),
                 child: Text(
                   "YES IT IS",
-                  style: GoogleFonts.jost(color: Colors.white),
+                  style: TextStyle(
+                    fontFamily: 'RainFont',
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
                 ),
               ),
           ],

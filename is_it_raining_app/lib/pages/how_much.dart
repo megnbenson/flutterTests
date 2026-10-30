@@ -48,7 +48,10 @@ class GradientSliderTrackShape extends RoundedRectSliderTrackShape {
     );
 
     final Paint paint = Paint()..shader = gradient.createShader(trackRect);
-    final RRect rRect = RRect.fromRectAndRadius(trackRect, Radius.circular(trackRect.height / 2));
+    final RRect rRect = RRect.fromRectAndRadius(
+      trackRect,
+      Radius.circular(trackRect.height / 2),
+    );
     context.canvas.drawRRect(rRect, paint);
   }
 }
@@ -94,9 +97,9 @@ class _HowMuchPageState extends State<HowMuchPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-                "HOW MUCH?",
-                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
-              ),
+              "HOW MUCH?",
+              style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
+            ),
             SizedBox(height: 20),
             if (_currentDiscreteSliderValue.round() == 0)
               Image.asset('assets/gifs/Its_Raining_Animation.gif', width: 200),
@@ -105,35 +108,41 @@ class _HowMuchPageState extends State<HowMuchPage> {
             if (_currentDiscreteSliderValue.round() == 67)
               Image.asset('assets/gifs/Its_Raining_Animation.gif', width: 200),
             if (_currentDiscreteSliderValue.round() == 100)
-              Image.asset('assets/gifs/Its_bucketing_it_down_Animation.gif', width: 200),
+              Image.asset(
+                'assets/gifs/Its_bucketing_it_down_Animation.gif',
+                width: 200,
+              ),
             SizedBox(height: 20),
-              SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  trackShape: GradientSliderTrackShape(
-                    gradient: LinearGradient(
-                      colors: [Color.fromRGBO(254, 167, 42, 1), Color.fromRGBO(52, 184, 255, 1)],
-                    ),
+            SliderTheme(
+              data: SliderTheme.of(context).copyWith(
+                trackShape: GradientSliderTrackShape(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromRGBO(254, 167, 42, 1),
+                      Color.fromRGBO(52, 184, 255, 1),
+                    ],
                   ),
-                  inactiveTrackColor: Colors.grey.shade300,
-                  thumbColor: Color.fromRGBO(52, 184, 255, 1),
-                  overlayColor: Color.fromRGBO(52, 184, 255, 0.12),
-                  trackHeight: 8.0,
                 ),
-                child: SizedBox(
-                  width: 250,
-                  child: Slider(
-                    value: _currentDiscreteSliderValue,
-                    max: 100,
-                    divisions: 3,
-                    label: _currentDiscreteSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentDiscreteSliderValue = value;
-                      });
-                    },
-                  ),
+                inactiveTrackColor: Colors.grey.shade300,
+                thumbColor: Color.fromRGBO(52, 184, 255, 1),
+                overlayColor: Color.fromRGBO(52, 184, 255, 0.12),
+                trackHeight: 8.0,
+              ),
+              child: SizedBox(
+                width: 250,
+                child: Slider(
+                  value: _currentDiscreteSliderValue,
+                  max: 100,
+                  divisions: 3,
+                  label: _currentDiscreteSliderValue.round().toString(),
+                  onChanged: (double value) {
+                    setState(() {
+                      _currentDiscreteSliderValue = value;
+                    });
+                  },
                 ),
               ),
+            ),
             ElevatedButton(
               onPressed: () {
                 // Navigate to the new GoHerePage
@@ -157,10 +166,10 @@ class _HowMuchPageState extends State<HowMuchPage> {
               ),
               child: Text(
                 'SUBMIT',
-                style: GoogleFonts.jost(
-                  color: Colors.white,
+                style: TextStyle(
+                  fontFamily: 'RainFont',
                   fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
                 ),
               ),
             ),
