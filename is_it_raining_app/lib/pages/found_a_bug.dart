@@ -84,12 +84,10 @@ class _FoundABugPageState extends State<FoundABugPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/images/FOUND_A_BUG.svg',
-              semanticsLabel: 'Found a bug?',
-              height: 100,
-              width: 70,
-            ),
+            Text(
+                "FOUND A \nBUG?",
+                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
+              ),
             const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),

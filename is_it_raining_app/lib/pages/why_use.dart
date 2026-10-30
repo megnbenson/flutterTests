@@ -38,12 +38,10 @@ class _WhyUsePageState extends State<WhyUsePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/images/WHY_ARE_YOU_EVEN_USING_THIS_APP.svg',
-              semanticsLabel: 'Why are you even using this app',
-              height: 100,
-              width: 70,
-            ),
+            Text(
+                "Why are you \n even using \n this app?",
+                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
+              ),
             SizedBox(height: 50),
             Image.asset('assets/gifs/its_cloudy.gif', width: 250),
             SizedBox(height: 50),

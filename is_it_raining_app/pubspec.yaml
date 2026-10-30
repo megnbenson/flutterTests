@@ -89,7 +89,7 @@ flutter:
   fonts:
     - family: RainFont
       fonts:
-        - asset: assets/fonts/RAINTEXT.ttf
+        - asset: assets/fonts/RAINTEXT.otf
 
   #   - family: Trajan Pro
   #     fonts:

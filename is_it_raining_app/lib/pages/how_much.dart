@@ -93,12 +93,10 @@ class _HowMuchPageState extends State<HowMuchPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/images/HOW_MUCH.svg',
-              semanticsLabel: 'How much',
-              height: 100,
-              width: 70,
-            ),
+            Text(
+                "HOW MUCH?",
+                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
+              ),
             SizedBox(height: 20),
             if (_currentDiscreteSliderValue.round() == 0)
               Image.asset('assets/gifs/Its_Raining_Animation.gif', width: 200),

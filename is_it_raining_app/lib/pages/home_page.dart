@@ -131,12 +131,10 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/images/IS_IT_RAINING.svg',
-              semanticsLabel: 'Is it raining',
-              height: 100,
-              width: 70,
-            ),
+            Text(
+                "IS IT \nRAINING?",
+                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
+              ),
             Image.asset(
               'assets/gifs/NB_Home_Screen_Cloud_Animation.gif',
               width: 250,

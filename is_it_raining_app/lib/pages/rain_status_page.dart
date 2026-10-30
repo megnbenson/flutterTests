@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:is_it_raining/models/utils/weather_utils.dart';
 import 'package:is_it_raining/pages/find_rain.dart';
 import 'package:is_it_raining/pages/how_much.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RainStatusPage extends StatefulWidget {
@@ -67,16 +66,10 @@ class _RainStatusPageState extends State<RainStatusPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Text(
-            //   rainStatus,
-            //   style: TextStyle(fontFamily: 'MegFont', fontSize: 44),
-            // ),
             if (rainStatus == "DETECTING...")
-              SvgPicture.asset(
-                'assets/images/DETECTING.svg',
-                semanticsLabel: 'Is it raining',
-                height: 100,
-                width: 70,
+              Text(
+                rainStatus,
+                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
               ),
             if (rainStatus == "DETECTING...")
               Image.asset(
@@ -86,13 +79,10 @@ class _RainStatusPageState extends State<RainStatusPage> {
 
             // Show the button only if it is raining
             if (rainStatus == "IT IS\n RAINING!")
-              SvgPicture.asset(
-                'assets/images/IT_IS_RAINING!.svg',
-                semanticsLabel: 'Is it raining!',
-                height: 100,
-                width: 70,
+              Text(
+                rainStatus,
+                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
               ),
-
             if (rainStatus == "IT IS\n RAINING!")
               Image.asset(
                 'assets/gifs/NB_It_is_Raining_Cloud_Animation.gif',
@@ -164,13 +154,10 @@ class _RainStatusPageState extends State<RainStatusPage> {
               ),
 
             if (rainStatus == "IT IS NOT\n RAINING!")
-              SvgPicture.asset(
-                'assets/images/IT_IS_NOT_RAINING!.svg',
-                semanticsLabel: 'It is not raining!',
-                height: 100,
-                width: 70,
+              Text(
+                rainStatus,
+                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
               ),
-
             if (rainStatus == "IT IS NOT\n RAINING!")
               Image.asset('assets/gifs/cropped_Not_Raining.gif', width: 250),
             SizedBox(height: 20),

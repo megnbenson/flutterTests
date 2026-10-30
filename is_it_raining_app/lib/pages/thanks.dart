@@ -28,12 +28,10 @@ class _ThanksPageState extends State<ThanksPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/images/THANKS!.svg',
-              semanticsLabel: 'Thanks!',
-              height: 100,
-              width: 70,
-            ),
+            Text(
+                "Thanks!",
+                style: TextStyle(fontFamily: 'RainFont', fontSize: 44),
+              ),
             SizedBox(height: 50),
             Image.asset('assets/gifs/its_sunny.gif', width: 200),
             SizedBox(height: 50),
